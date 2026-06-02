@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PS540GS TechMaster — Offline</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0c10;
+    color: #e8ecf4;
+    font-family: 'Exo 2', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+  .card {
+    background: #111318;
+    border: 1px solid #252a35;
+    border-radius: 20px;
+    padding: 48px 32px;
+    max-width: 360px;
+    width: 100%;
+    box-shadow: 0 0 40px rgba(255,107,26,0.08);
+  }
+  .oven-icon { font-size: 56px; margin-bottom: 20px; }
+  .status-dot {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,61,0,0.1);
+    border: 1px solid rgba(255,61,0,0.3);
+    color: #ff3d3d;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #ff3d3d; animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  h1 { font-size: 22px; font-weight: 900; margin-bottom: 10px; }
+  p { font-size: 13px; color: #4a5268; line-height: 1.6; margin-bottom: 20px; }
+  .cached-box {
+    background: rgba(0,230,118,0.05);
+    border: 1px solid rgba(0,230,118,0.2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 12px;
+    color: #00e676;
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+  .cached-box strong { display: block; margin-bottom: 4px; font-size: 13px; }
+  button {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(255,107,26,0.15), rgba(255,61,0,0.1));
+    border: 1px solid rgba(255,107,26,0.5);
+    color: #ff6b1a;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+  }
+  button:hover { background: rgba(255,107,26,0.2); }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="oven-icon">🔥</div>
+    <div class="status-dot"><span class="dot"></span>NO NETWORK</div>
+    <h1>Offline Mode</h1>
+    <p>Network signal nahi mil raha. Wi-Fi ya mobile data check karo. Cached content available hai.</p>
+    <div class="cached-box">
+      <strong>✅ Cached & Available Offline:</strong>
+      • Fault Codes & Diagnosis<br>
+      • Gas Pressure Specs<br>
+      • Part Numbers Reference<br>
+      • Ignition Troubleshooting<br>
+      • Blower & Conveyor Data
+    </div>
+    <button onclick="window.location.href='index.html'">🔄 Main App Kholo</button>
+  </div>
+</body>
+</html>
