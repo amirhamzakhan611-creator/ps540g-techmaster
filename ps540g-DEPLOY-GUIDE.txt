@@ -1,0 +1,65 @@
+PS540GS TechMaster — GitHub Pages Deploy
+Amir Khan | DPI West 1 | Jubilant FoodWorks
+==========================================
+
+FOLDER STRUCTURE (GitHub pe yeh banao):
+----------------------------------------
+ps540g-techmaster/
+├── index.html          ← PS540GS_TechMaster_PWA.html ko rename karo
+├── manifest.json       ← ps540g-manifest.json
+├── sw.js               ← ps540g-sw.js
+├── offline.html        ← ps540g-offline.html
+└── icons/
+    ├── icon-72.png
+    ├── icon-96.png
+    ├── icon-128.png
+    ├── icon-192.png
+    └── icon-512.png
+
+ICONS BANAO (Free):
+-------------------
+1. realfavicongenerator.net kholo
+2. Koi bhi oven/fire/tech image upload karo
+3. Saare PNG sizes download karo
+4. icons/ folder mein daalo
+
+GITHUB STEPS (No Git needed):
+------------------------------
+1. github.com → Login → "New repository"
+2. Name: ps540g-techmaster
+3. Public ✓ → "Create repository"
+4. "Upload files" → Sab files drag karo
+   (index.html, manifest.json, sw.js, offline.html + icons folder)
+5. "Commit changes"
+6. Settings → Pages → Branch: main → / (root) → Save
+7. 2 min baad URL: https://USERNAME.github.io/ps540g-techmaster/
+
+PHONE PE INSTALL KARO:
+-----------------------
+1. Chrome mein URL kholo
+2. 4 second baad orange "Install" banner aayega
+3. Install tap karo
+4. Home screen pe PS540G icon aayega 🔥
+
+OFFLINE TEST KARO:
+------------------
+1. App ek baar online kholo (SW cache karega)
+2. Airplane mode ON karo
+3. App dubara kholo — sab kuch kaam karega!
+
+TROUBLESHOOTING:
+----------------
+• Install banner nahi aa raha?
+  → HTTPS pe ho? (GitHub Pages pe automatic)
+  → Chrome use kar raha hai?
+  → Ek baar page refresh karo
+
+• Offline kaam nahi kar raha?
+  → Pehle online page khola tha? SW tabhi cache karta hai
+  → DevTools → Application → Service Workers check karo
+
+• manifest.json error?
+  → jsonlint.com pe validate karo
+
+Done! Ab tera PS540G Handbook 
+phone pe install ho sakta hai, offline bhi chalega 💪

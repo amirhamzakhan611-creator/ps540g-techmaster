@@ -1,0 +1,2804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PS540GS TechMaster — Middleby Marshall Handbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+<!-- ══ PWA CONFIG ══════════════════════════════ -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff6b1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PS540G">
+<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<!-- ════════════════════════════════════════════ -->
+<style>
+:root {
+  --bg-deep: #0a0c10;
+  --bg-panel: #111318;
+  --bg-card: #161920;
+  --bg-hover: #1c2028;
+  --border: #252a35;
+  --border-bright: #2e3545;
+  --accent-blue: #1e90ff;
+  --accent-orange: #ff6b1a;
+  --accent-green: #00e676;
+  --accent-red: #ff3d3d;
+  --accent-yellow: #ffd600;
+  --accent-cyan: #00e5ff;
+  --text-primary: #e8ecf4;
+  --text-secondary: #8a93a8;
+  --text-muted: #4a5268;
+  --glow-blue: rgba(30,144,255,0.2);
+  --glow-orange: rgba(255,107,26,0.2);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Exo 2', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── GRID NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 56px;
+  background: rgba(10,12,16,0.95);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+}
+
+.logo-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent-orange), #ff3d00);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 0 16px var(--glow-orange);
+}
+
+.logo-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 17px; font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+.logo-text span { color: var(--accent-orange); }
+.logo-sub { font-size: 9px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; font-family: 'Share Tech Mono', monospace; }
+
+.search-bar {
+  flex: 1;
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0 12px;
+  gap: 8px;
+  transition: border-color 0.2s;
+}
+.search-bar:focus-within { border-color: var(--accent-blue); box-shadow: 0 0 0 3px var(--glow-blue); }
+.search-bar input {
+  flex: 1;
+  background: none; border: none; outline: none;
+  color: var(--text-primary); font-family: 'Exo 2', sans-serif;
+  font-size: 13px; padding: 8px 0;
+}
+.search-bar input::placeholder { color: var(--text-muted); }
+.search-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 15px; padding: 4px; }
+.search-btn:hover { color: var(--accent-blue); }
+
+.top-actions { display: flex; gap: 8px; margin-left: auto; }
+.top-btn {
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-secondary); border-radius: 7px;
+  padding: 6px 12px; font-family: 'Exo 2', sans-serif;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+  transition: all 0.2s;
+}
+.top-btn:hover { background: var(--bg-hover); color: var(--text-primary); border-color: var(--border-bright); }
+.top-btn.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+
+/* ── LAYOUT ── */
+.layout {
+  display: flex;
+  margin-top: 56px;
+  min-height: calc(100vh - 56px);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 220px;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: 56px; bottom: 0; left: 0;
+  overflow-y: auto;
+  z-index: 900;
+  transition: transform 0.3s;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.sidebar-section { padding: 12px 0; border-bottom: 1px solid var(--border); }
+.sidebar-section:last-child { border-bottom: none; }
+.sidebar-label { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; font-family: 'Share Tech Mono', monospace; padding: 0 14px 8px; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px; cursor: pointer;
+  color: var(--text-secondary); font-size: 13px; font-weight: 500;
+  transition: all 0.15s; border-left: 2px solid transparent;
+  position: relative;
+}
+.nav-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+.nav-item.active { background: rgba(30,144,255,0.08); color: var(--accent-blue); border-left-color: var(--accent-blue); }
+.nav-item .nav-icon { width: 18px; font-size: 15px; text-align: center; }
+.nav-badge {
+  margin-left: auto; background: var(--accent-red); color: #fff;
+  font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 10px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* ── MAIN CONTENT ── */
+.main { margin-left: 220px; flex: 1; padding: 20px; position: relative; z-index: 1; }
+
+/* ── PAGES ── */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+/* ── SECTION HEADER ── */
+.section-header {
+  margin-bottom: 20px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.section-title { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; }
+.section-title span { color: var(--accent-orange); }
+.section-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; font-family: 'Share Tech Mono', monospace; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: var(--border-bright); }
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+
+/* ── STAT CARDS ── */
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex; align-items: center; gap: 14px;
+}
+.stat-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.stat-val { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; line-height: 1; }
+.stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* ── QUICK ACCESS GRID ── */
+.quick-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.quick-btn:hover {
+  border-color: var(--accent-blue);
+  background: var(--bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(30,144,255,0.1);
+}
+.quick-btn .qb-icon { font-size: 26px; }
+.quick-btn .qb-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); line-height: 1.3; }
+.quick-btn:hover .qb-label { color: var(--text-primary); }
+
+/* ── STATUS BADGE ── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px; border-radius: 20px; font-size: 10px; font-weight: 700;
+  font-family: 'Share Tech Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-green { background: rgba(0,230,118,0.12); color: var(--accent-green); border: 1px solid rgba(0,230,118,0.3); }
+.badge-orange { background: rgba(255,107,26,0.12); color: var(--accent-orange); border: 1px solid rgba(255,107,26,0.3); }
+.badge-red { background: rgba(255,61,61,0.12); color: var(--accent-red); border: 1px solid rgba(255,61,61,0.3); }
+.badge-blue { background: rgba(30,144,255,0.12); color: var(--accent-blue); border: 1px solid rgba(30,144,255,0.3); }
+.badge-yellow { background: rgba(255,214,0,0.12); color: var(--accent-yellow); border: 1px solid rgba(255,214,0,0.3); }
+
+/* ── AI TROUBLESHOOT ── */
+.symptom-input-area {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.symptom-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px; margin-bottom: 16px;
+}
+.symptom-chip {
+  padding: 8px 12px; border-radius: 8px;
+  background: var(--bg-panel); border: 1px solid var(--border);
+  font-size: 12px; cursor: pointer; color: var(--text-secondary);
+  transition: all 0.15s; font-weight: 500;
+  display: flex; align-items: center; gap: 6px;
+}
+.symptom-chip:hover, .symptom-chip.selected {
+  background: rgba(30,144,255,0.1); border-color: var(--accent-blue); color: var(--accent-blue);
+}
+
+.ai-input-row {
+  display: flex; gap: 10px;
+}
+.ai-input {
+  flex: 1; background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; color: var(--text-primary);
+  font-family: 'Exo 2', sans-serif; font-size: 13px; outline: none;
+  transition: border-color 0.2s;
+}
+.ai-input:focus { border-color: var(--accent-blue); }
+.ai-input::placeholder { color: var(--text-muted); }
+
+.btn {
+  border: none; border-radius: 8px; cursor: pointer;
+  font-family: 'Exo 2', sans-serif; font-weight: 600; font-size: 13px;
+  padding: 10px 18px; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-primary { background: var(--accent-blue); color: #fff; }
+.btn-primary:hover { background: #1a7de8; box-shadow: 0 4px 16px rgba(30,144,255,0.3); }
+.btn-orange { background: var(--accent-orange); color: #fff; }
+.btn-orange:hover { background: #e05c10; box-shadow: 0 4px 16px var(--glow-orange); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); }
+.btn-outline:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+.btn-sm { padding: 6px 12px; font-size: 11px; }
+.btn-danger { background: var(--accent-red); color: #fff; }
+
+/* ── RESULT CARD ── */
+.result-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; margin-bottom: 16px;
+  display: none;
+}
+.result-card.visible { display: block; animation: fadeIn 0.4s ease; }
+.result-header {
+  background: linear-gradient(90deg, rgba(30,144,255,0.15), transparent);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 18px; display: flex; align-items: center; gap: 10px;
+}
+.result-title { font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700; }
+
+.causes-list { padding: 16px 18px; }
+.cause-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.cause-item:last-child { border-bottom: none; }
+.cause-rank {
+  width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Share Tech Mono', monospace; font-size: 12px;
+  font-weight: 700; flex-shrink: 0;
+}
+.rank-1 { background: rgba(255,61,61,0.2); color: var(--accent-red); }
+.rank-2 { background: rgba(255,107,26,0.2); color: var(--accent-orange); }
+.rank-3 { background: rgba(255,214,0,0.15); color: var(--accent-yellow); }
+.rank-n { background: var(--bg-panel); color: var(--text-muted); }
+
+.cause-text { flex: 1; font-size: 13px; font-weight: 500; }
+.cause-prob { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* ── STEPS ── */
+.steps-container { padding: 0 18px 18px; }
+.step-item {
+  display: flex; gap: 14px;
+  padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+}
+.step-item:not(:last-child)::after {
+  content: '';
+  position: absolute; left: 15px; top: 44px; bottom: -12px;
+  width: 2px; background: var(--border);
+}
+.step-num {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid var(--accent-blue); color: var(--accent-blue);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Share Tech Mono', monospace; font-size: 12px;
+  font-weight: 700; flex-shrink: 0; background: var(--bg-deep);
+  position: relative; z-index: 1;
+}
+.step-content { flex: 1; padding-top: 4px; }
+.step-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.step-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+.reading-box {
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 12px; margin-top: 8px;
+  font-family: 'Share Tech Mono', monospace; font-size: 11px;
+  color: var(--accent-cyan); display: flex; gap: 12px; flex-wrap: wrap;
+}
+.reading-item { display: flex; gap: 6px; }
+.reading-key { color: var(--text-muted); }
+
+/* ── PARTS SECTION ── */
+.parts-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
+}
+.part-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; cursor: pointer;
+  transition: all 0.2s;
+}
+.part-card:hover { border-color: var(--accent-orange); transform: translateY(-2px); }
+.part-emoji { font-size: 28px; margin-bottom: 8px; }
+.part-name { font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.part-status { font-size: 11px; }
+
+.part-detail {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; display: none;
+}
+.part-detail.visible { display: block; animation: fadeIn 0.3s ease; }
+
+.detail-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;
+}
+.detail-item { background: var(--bg-panel); border-radius: 8px; padding: 12px; }
+.detail-label { font-size: 10px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; font-family: 'Share Tech Mono', monospace; }
+.detail-value { font-size: 13px; color: var(--text-primary); font-weight: 500; line-height: 1.5; }
+
+/* ── DECISION TREE ── */
+.tree-container {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px;
+}
+.tree-question {
+  background: linear-gradient(135deg, rgba(30,144,255,0.1), rgba(30,144,255,0.05));
+  border: 1px solid rgba(30,144,255,0.3); border-radius: 10px;
+  padding: 16px 20px; margin-bottom: 16px; font-size: 15px; font-weight: 600;
+  display: flex; align-items: center; gap: 10px;
+}
+.tree-question .q-icon { font-size: 20px; }
+.tree-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.tree-btn {
+  padding: 10px 24px; border-radius: 8px; border: none; cursor: pointer;
+  font-family: 'Exo 2', sans-serif; font-weight: 700; font-size: 13px;
+  transition: all 0.2s;
+}
+.tree-yes { background: rgba(0,230,118,0.15); color: var(--accent-green); border: 1px solid rgba(0,230,118,0.4); }
+.tree-yes:hover { background: var(--accent-green); color: #000; }
+.tree-no { background: rgba(255,61,61,0.15); color: var(--accent-red); border: 1px solid rgba(255,61,61,0.4); }
+.tree-no:hover { background: var(--accent-red); color: #fff; }
+
+.tree-result {
+  background: rgba(0,230,118,0.05); border: 1px solid rgba(0,230,118,0.3);
+  border-radius: 10px; padding: 16px 20px; margin-top: 8px;
+  font-size: 14px; display: none;
+}
+.tree-result.visible { display: block; animation: fadeIn 0.3s; }
+
+/* ── PM CHECKLIST ── */
+.pm-section { margin-bottom: 20px; }
+.pm-freq-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.pm-tab {
+  padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--bg-card); color: var(--text-secondary); cursor: pointer;
+  font-size: 12px; font-weight: 600; transition: all 0.2s;
+}
+.pm-tab.active { background: var(--accent-orange); color: #fff; border-color: var(--accent-orange); }
+
+.pm-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border-radius: 8px;
+  background: var(--bg-panel); border: 1px solid var(--border);
+  margin-bottom: 8px; cursor: pointer; transition: all 0.15s;
+}
+.pm-item:hover { border-color: var(--border-bright); }
+.pm-checkbox {
+  width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--border);
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; background: var(--bg-card);
+}
+.pm-item.done .pm-checkbox { background: var(--accent-green); border-color: var(--accent-green); }
+.pm-item.done .pm-text { text-decoration: line-through; color: var(--text-muted); }
+.pm-text { flex: 1; font-size: 13px; font-weight: 500; }
+.pm-priority { font-size: 10px; font-family: 'Share Tech Mono', monospace; }
+
+/* ── MEMORY SYSTEM ── */
+.memory-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px; margin-bottom: 12px;
+}
+.memory-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.memory-store { font-family: 'Rajdhani', sans-serif; font-size: 16px; font-weight: 700; }
+.memory-timeline { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-muted); }
+.memory-item {
+  display: flex; align-items: center; gap: 8px; padding: 6px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px;
+}
+.memory-item:last-child { border-bottom: none; }
+.memory-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── NOTES ── */
+.notes-area {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px;
+}
+.notes-input {
+  width: 100%; background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px; color: var(--text-primary);
+  font-family: 'Exo 2', sans-serif; font-size: 13px; resize: vertical;
+  outline: none; min-height: 100px; transition: border-color 0.2s;
+}
+.notes-input:focus { border-color: var(--accent-blue); }
+.notes-meta { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.notes-meta input, .notes-meta select {
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 7px; padding: 8px 12px; color: var(--text-primary);
+  font-family: 'Exo 2', sans-serif; font-size: 12px; outline: none;
+  flex: 1; min-width: 120px;
+}
+
+.saved-note {
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 9px; padding: 14px; margin-top: 10px;
+  border-left: 3px solid var(--accent-blue);
+}
+.saved-note .sn-meta { font-size: 10px; color: var(--text-muted); font-family: 'Share Tech Mono', monospace; margin-bottom: 6px; }
+.saved-note .sn-text { font-size: 13px; line-height: 1.6; }
+
+/* ── ANALYTICS ── */
+.chart-bar-container { padding: 12px 0; }
+.chart-bar-item { margin-bottom: 14px; }
+.chart-bar-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+.chart-bar-label span:first-child { color: var(--text-secondary); font-weight: 500; }
+.chart-bar-label span:last-child { color: var(--text-muted); font-family: 'Share Tech Mono', monospace; }
+.chart-bar-track { height: 8px; background: var(--bg-panel); border-radius: 4px; overflow: hidden; }
+.chart-bar-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+  transition: width 1s ease;
+}
+.chart-bar-fill.orange { background: linear-gradient(90deg, var(--accent-orange), var(--accent-yellow)); }
+.chart-bar-fill.red { background: linear-gradient(90deg, var(--accent-red), var(--accent-orange)); }
+.chart-bar-fill.green { background: linear-gradient(90deg, var(--accent-green), #00bfa5); }
+
+/* ── WIRING ── */
+.wiring-svg-container {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; position: relative; overflow: hidden;
+}
+.wiring-legend {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px;
+}
+.wiring-leg-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary); }
+.wiring-leg-dot { width: 12px; height: 4px; border-radius: 2px; }
+
+/* ── LEARNING ── */
+.learn-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; cursor: pointer; transition: all 0.2s;
+}
+.learn-card:hover { border-color: var(--accent-blue); transform: translateY(-2px); }
+.learn-level { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-family: 'Share Tech Mono', monospace; margin-bottom: 8px; }
+.learn-title { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.learn-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px; }
+.learn-progress { height: 4px; background: var(--bg-panel); border-radius: 2px; overflow: hidden; }
+.learn-progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); }
+
+/* ── QUIZ ── */
+.quiz-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+.quiz-q { font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+.quiz-options { display: grid; gap: 10px; }
+.quiz-opt {
+  padding: 12px 16px; background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.2s;
+}
+.quiz-opt:hover { border-color: var(--accent-blue); background: rgba(30,144,255,0.08); color: var(--accent-blue); }
+.quiz-opt.correct { border-color: var(--accent-green); background: rgba(0,230,118,0.1); color: var(--accent-green); }
+.quiz-opt.wrong { border-color: var(--accent-red); background: rgba(255,61,61,0.1); color: var(--accent-red); }
+
+.quiz-score {
+  text-align: center; padding: 30px;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  display: none;
+}
+.quiz-score.visible { display: block; animation: fadeIn 0.5s; }
+.quiz-score-num { font-family: 'Rajdhani', sans-serif; font-size: 60px; font-weight: 900; color: var(--accent-blue); }
+
+/* ── GAS SYSTEM ── */
+.gas-param {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; background: var(--bg-panel); border-radius: 8px; margin-bottom: 8px;
+  border: 1px solid var(--border);
+}
+.gas-param-name { font-size: 13px; font-weight: 500; }
+.gas-param-val { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--accent-cyan); }
+.gas-param-range { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: none; }
+  .main { margin-left: 0; padding: 14px; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .detail-grid { grid-template-columns: 1fr; }
+}
+
+/* ── HAMBURGER ── */
+.hamburger {
+  display: none; background: none; border: none; color: var(--text-primary);
+  font-size: 20px; cursor: pointer; padding: 6px;
+}
+@media (max-width: 768px) { .hamburger { display: block; } }
+
+/* ── OVERLAY ── */
+.overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+  z-index: 800; backdrop-filter: blur(2px);
+}
+.overlay.visible { display: block; }
+
+/* ── ALERT BANNER ── */
+.alert-banner {
+  background: rgba(255,61,61,0.1); border: 1px solid rgba(255,61,61,0.3);
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px; font-size: 12px;
+}
+.alert-banner.info { background: rgba(30,144,255,0.08); border-color: rgba(30,144,255,0.3); }
+.alert-banner.success { background: rgba(0,230,118,0.08); border-color: rgba(0,230,118,0.3); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-bright); }
+
+/* ── MODAL ── */
+.modal-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75); z-index: 2000;
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(4px);
+}
+.modal-backdrop.visible { display: flex; }
+.modal {
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px; max-width: 520px; width: 90%;
+  max-height: 80vh; overflow-y: auto; animation: fadeIn 0.3s;
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.modal-title { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; }
+.modal-close {
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-secondary); width: 28px; height: 28px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 14px;
+}
+.modal-close:hover { background: rgba(255,61,61,0.2); color: var(--accent-red); }
+
+/* ── PULSE ANIMATION ── */
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+.pulse { animation: pulse 2s infinite; }
+
+/* ── SPEC TABLE ── */
+.spec-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.spec-table th { text-align: left; padding: 8px 12px; background: var(--bg-panel); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); font-family: 'Share Tech Mono', monospace; border-bottom: 1px solid var(--border); }
+.spec-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.spec-table tr:hover td { background: var(--bg-hover); }
+.spec-table td:first-child { color: var(--text-secondary); font-weight: 500; }
+.spec-table td:last-child { color: var(--accent-cyan); font-family: 'Share Tech Mono', monospace; }
+</style>
+</head>
+<body>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal-body">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Part Details</div>
+      <div class="modal-close" onclick="closeModal()">✕</div>
+    </div>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <button class="hamburger" onclick="toggleSidebar()">☰</button>
+  <div class="logo-badge">
+    <div class="logo-icon">🔥</div>
+    <div>
+      <div class="logo-text">PS<span>540</span>GS <span style="color:var(--accent-blue)">TechMaster</span></div>
+      <div class="logo-sub">Middleby Marshall · QSR Field Handbook</div>
+    </div>
+  </div>
+  <div class="search-bar">
+    <span class="search-btn">🔍</span>
+    <input type="text" id="global-search" placeholder="Search symptoms, parts, faults..." oninput="globalSearch(this.value)">
+    <button class="search-btn" onclick="voiceSearch()" title="Voice Search">🎤</button>
+  </div>
+  <div class="top-actions">
+    <button class="top-btn" id="theme-toggle" onclick="toggleTheme()">☀️ Light</button>
+    <button class="top-btn active">📶 Online</button>
+  </div>
+</div>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Main</div>
+    <div class="nav-item active" onclick="showPage('dashboard')"><span class="nav-icon">🏠</span> Dashboard</div>
+    <div class="nav-item" onclick="showPage('troubleshoot')"><span class="nav-icon">🔧</span> AI Troubleshoot <span class="nav-badge">AI</span></div>
+    <div class="nav-item" onclick="showPage('decision')"><span class="nav-icon">🌳</span> Decision Tree</div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Systems</div>
+    <div class="nav-item" onclick="showPage('parts')"><span class="nav-icon">⚙️</span> Oven Parts</div>
+    <div class="nav-item" onclick="showPage('gas')"><span class="nav-icon">🔵</span> Gas System</div>
+    <div class="nav-item" onclick="showPage('wiring')"><span class="nav-icon">⚡</span> Wiring Guide</div>
+    <div class="nav-item" onclick="showPage('blower')"><span class="nav-icon">💨</span> Blower System</div>
+    <div class="nav-item" onclick="showPage('conveyor')"><span class="nav-icon">🔄</span> Conveyor System</div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Maintenance</div>
+    <div class="nav-item" onclick="showPage('pm')"><span class="nav-icon">✅</span> PM Checklist</div>
+    <div class="nav-item" onclick="showPage('notes')"><span class="nav-icon">📝</span> Tech Notes</div>
+    <div class="nav-item" onclick="showPage('memory')"><span class="nav-icon">🧠</span> Store Memory</div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Learning</div>
+    <div class="nav-item" onclick="showPage('learning')"><span class="nav-icon">🎓</span> Learning Mode</div>
+    <div class="nav-item" onclick="showPage('quiz')"><span class="nav-icon">❓</span> Quiz Mode</div>
+    <div class="nav-item" onclick="showPage('analytics')"><span class="nav-icon">📊</span> Analytics</div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">AI & Reference</div>
+    <div class="nav-item" onclick="showPage('aichat')"><span class="nav-icon">🤖</span> AI Chat Assistant <span class="nav-badge">AI</span></div>
+    <div class="nav-item" onclick="showPage('errorcodes')"><span class="nav-icon">🔴</span> Error Codes</div>
+    <div class="nav-item" onclick="showPage('specs')"><span class="nav-icon">📐</span> Full Specs</div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Oven Specs</div>
+    <div style="padding: 10px 14px; font-size: 11px; line-height: 1.8; font-family:'Share Tech Mono',monospace; color: var(--text-muted);">
+      BTU: <span style="color:var(--accent-cyan)">110,000/hr</span><br>
+      Max Temp: <span style="color:var(--accent-cyan)">550°F</span><br>
+      High Limit: <span style="color:var(--accent-cyan)">650°F</span><br>
+      Blower: <span style="color:var(--accent-cyan)">2300 RPM</span><br>
+      Gas (NG): <span style="color:var(--accent-cyan)">6–12" WC</span><br>
+      Gas (LPG): <span style="color:var(--accent-cyan)">11.5–12" WC</span><br>
+      Spark Gap: <span style="color:var(--accent-cyan)">1/8"</span><br>
+      Flame µA: <span style="color:var(--accent-cyan)">>0.5µA</span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ═══════════════════════ DASHBOARD ═══════════════════════ -->
+<div class="page active" id="page-dashboard">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Tech<span>Master</span> Dashboard</div>
+      <div class="section-sub">// MIDDLEBY MARSHALL PS540GS · FIELD MAINTENANCE SYSTEM</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <span class="badge badge-green pulse">● System Ready</span>
+      <span class="badge badge-blue">DPI WEST 1</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="grid-4" style="margin-bottom:18px;">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(255,61,61,0.15);">🔥</div>
+      <div>
+        <div class="stat-val" style="color:var(--accent-red);">3</div>
+        <div class="stat-label">Active Breakdowns</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(0,230,118,0.15);">✅</div>
+      <div>
+        <div class="stat-val" style="color:var(--accent-green);">12</div>
+        <div class="stat-label">Resolved This Month</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(30,144,255,0.15);">⏱️</div>
+      <div>
+        <div class="stat-val" style="color:var(--accent-blue);">38m</div>
+        <div class="stat-label">Avg MTTR</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:rgba(255,214,0,0.15);">📋</div>
+      <div>
+        <div class="stat-val" style="color:var(--accent-yellow);">7</div>
+        <div class="stat-label">PM Pending</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERT -->
+  <div class="alert-banner" style="margin-bottom:18px;">
+    <span>⚠️</span>
+    <span><strong>CRITICAL:</strong> 60% flame failures traced to ground connection — always check ground first! | Ignition P/N: 50239 | Gas Valve P/N: 60679</span>
+  </div>
+
+  <!-- QUICK ACCESS -->
+  <div style="margin-bottom:18px;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;color:var(--text-secondary);">QUICK ACCESS</div>
+    <div class="grid-4">
+      <div class="quick-btn" onclick="showPage('troubleshoot')"><div class="qb-icon">🔧</div><div class="qb-label">AI Trouble-shoot</div></div>
+      <div class="quick-btn" onclick="showPage('decision')"><div class="qb-icon">🌳</div><div class="qb-label">Decision Tree</div></div>
+      <div class="quick-btn" onclick="showPage('parts')"><div class="qb-icon">⚙️</div><div class="qb-label">Oven Parts</div></div>
+      <div class="quick-btn" onclick="showPage('gas')"><div class="qb-icon">🔵</div><div class="qb-label">Gas System</div></div>
+      <div class="quick-btn" onclick="showPage('blower')"><div class="qb-icon">💨</div><div class="qb-label">Blower Motor</div></div>
+      <div class="quick-btn" onclick="showPage('conveyor')"><div class="qb-icon">🔄</div><div class="qb-label">Conveyor</div></div>
+      <div class="quick-btn" onclick="showPage('pm')"><div class="qb-icon">📋</div><div class="qb-label">PM Checklist</div></div>
+      <div class="quick-btn" onclick="showPage('learning')"><div class="qb-icon">🎓</div><div class="qb-label">Learning Mode</div></div>
+      <div class="quick-btn" onclick="showPage('memory')"><div class="qb-icon">🧠</div><div class="qb-label">Store Memory</div></div>
+      <div class="quick-btn" onclick="showPage('notes')"><div class="qb-icon">📝</div><div class="qb-label">Tech Notes</div></div>
+      <div class="quick-btn" onclick="showPage('analytics')"><div class="qb-icon">📊</div><div class="qb-label">Analytics</div></div>
+      <div class="quick-btn" onclick="showPage('wiring')"><div class="qb-icon">⚡</div><div class="qb-label">Wiring Guide</div></div>
+    </div>
+  </div>
+
+  <!-- RECENT + FREQUENT -->
+  <div class="grid-2">
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">🕐 Recent Cases</div>
+      <div id="recent-cases-list">
+        <div class="memory-item"><div class="memory-dot" style="background:var(--accent-red)"></div><span>Ignition failure – IIT Powai</span><span style="margin-left:auto;font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;">2h ago</span></div>
+        <div class="memory-item"><div class="memory-dot" style="background:var(--accent-orange)"></div><span>Conveyor slow – Kurla Shelter</span><span style="margin-left:auto;font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;">Yesterday</span></div>
+        <div class="memory-item"><div class="memory-dot" style="background:var(--accent-yellow)"></div><span>Temp low – Andheri W</span><span style="margin-left:auto;font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;">2d ago</span></div>
+        <div class="memory-item"><div class="memory-dot" style="background:var(--accent-green)"></div><span>Blower motor trip – Borivali</span><span style="margin-left:auto;font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;">3d ago</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">🔁 Most Frequent Breakdowns</div>
+      <div class="chart-bar-container">
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Ignition/Flame Failure</span><span>43%</span></div><div class="chart-bar-track"><div class="chart-bar-fill red" style="width:43%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Temperature Issues</span><span>28%</span></div><div class="chart-bar-track"><div class="chart-bar-fill orange" style="width:28%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Conveyor Problems</span><span>15%</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:15%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Blower Motor</span><span>9%</span></div><div class="chart-bar-track"><div class="chart-bar-fill green" style="width:9%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Gas Pressure</span><span>5%</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:5%"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ AI TROUBLESHOOT ═══════════════════════ -->
+<div class="page" id="page-troubleshoot">
+  <div class="section-header">
+    <div>
+      <div class="section-title">AI <span>Smart Troubleshoot</span></div>
+      <div class="section-sub">// SELECT SYMPTOM OR TYPE ISSUE → GET INSTANT DIAGNOSIS</div>
+    </div>
+  </div>
+
+  <div class="symptom-input-area">
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-family:'Share Tech Mono',monospace;">QUICK SYMPTOM SELECT ↓</div>
+    <div class="symptom-grid" id="symptom-grid">
+      <div class="symptom-chip" onclick="selectSymptom('Burner not igniting')">🔥 Burner Not Igniting</div>
+      <div class="symptom-chip" onclick="selectSymptom('Temperature low')">🌡️ Temperature Low</div>
+      <div class="symptom-chip" onclick="selectSymptom('Oven overheating')">♨️ Oven Overheating</div>
+      <div class="symptom-chip" onclick="selectSymptom('Conveyor not rotating')">🔄 Conveyor Not Rotating</div>
+      <div class="symptom-chip" onclick="selectSymptom('Blower motor trip')">💨 Blower Motor Trip</div>
+      <div class="symptom-chip" onclick="selectSymptom('Flame failure')">🔴 Flame Failure</div>
+      <div class="symptom-chip" onclick="selectSymptom('Gas smell detected')">⚠️ Gas Smell</div>
+      <div class="symptom-chip" onclick="selectSymptom('No heating at all')">❄️ No Heating</div>
+      <div class="symptom-chip" onclick="selectSymptom('Uneven baking')">🍕 Uneven Baking</div>
+      <div class="symptom-chip" onclick="selectSymptom('Pilot ignition issue')">💡 Pilot Ignition</div>
+      <div class="symptom-chip" onclick="selectSymptom('Oven sudden shutdown')">⛔ Sudden Shutdown</div>
+      <div class="symptom-chip" onclick="selectSymptom('Conveyor speed problem')">⏩ Conveyor Speed Issue</div>
+    </div>
+    <div class="ai-input-row">
+      <input class="ai-input" type="text" id="symptom-input" placeholder="Type symptom or issue description... e.g. 'burner not igniting'" onkeydown="if(event.key==='Enter')diagnose()">
+      <button class="btn btn-primary" onclick="diagnose()">🔍 Diagnose</button>
+      <button class="btn btn-outline" onclick="clearResult()">Clear</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-card" id="result-card">
+    <div class="result-header">
+      <span style="font-size:20px;">🔍</span>
+      <div class="result-title" id="result-issue-title">Issue Diagnosis</div>
+      <div style="margin-left:auto;"><span class="badge badge-red" id="result-severity">HIGH PRIORITY</span></div>
+    </div>
+
+    <div style="padding:16px 18px;border-bottom:1px solid var(--border);">
+      <div style="font-size:11px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:8px;">⚠️ SAFETY PRECAUTIONS</div>
+      <div id="result-safety" style="font-size:13px;color:var(--accent-yellow);line-height:1.7;"></div>
+    </div>
+
+    <div class="causes-list">
+      <div style="font-size:11px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:10px;">📊 PROBABLE ROOT CAUSES (Ranked by Probability)</div>
+      <div id="result-causes"></div>
+    </div>
+
+    <div style="padding:0 18px 12px;border-top:1px solid var(--border);">
+      <div style="font-size:11px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin:12px 0 8px;">🛠️ REQUIRED TOOLS</div>
+      <div id="result-tools" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+    </div>
+
+    <div class="steps-container">
+      <div style="font-size:11px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:12px;">📋 STEP-BY-STEP TROUBLESHOOTING SOP</div>
+      <div id="result-steps"></div>
+    </div>
+
+    <div style="padding:0 18px 18px;">
+      <div style="font-size:11px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:8px;">📏 KEY REFERENCE VALUES</div>
+      <div class="reading-box" id="result-refs"></div>
+    </div>
+
+    <div style="padding:0 18px 18px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-outline btn-sm" onclick="saveCase()">💾 Save Case</button>
+      <button class="btn btn-outline btn-sm" onclick="addNote()">📝 Add Note</button>
+      <button class="btn btn-outline btn-sm" onclick="exportPDF()">📄 Export PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ DECISION TREE ═══════════════════════ -->
+<div class="page" id="page-decision">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Breakdown <span>Decision Tree</span></div>
+      <div class="section-sub">// GUIDED YES/NO FAULT DIAGNOSIS FLOW</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px;">
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">Select issue category:</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-primary btn-sm" onclick="startTree('noHeat')">❄️ No Heating</button>
+      <button class="btn btn-outline btn-sm" onclick="startTree('ignitionFail')">🔥 Ignition Failure</button>
+      <button class="btn btn-outline btn-sm" onclick="startTree('conveyorFail')">🔄 Conveyor Problem</button>
+      <button class="btn btn-outline btn-sm" onclick="startTree('tempLow')">🌡️ Low Temperature</button>
+      <button class="btn btn-outline btn-sm" onclick="startTree('blowerFail')">💨 Blower Issue</button>
+    </div>
+  </div>
+
+  <div class="tree-container" id="tree-container">
+    <div style="text-align:center;color:var(--text-muted);padding:40px 0;font-size:14px;">
+      👆 Select an issue category above to start the diagnosis flow
+    </div>
+  </div>
+  <div style="margin-top:12px;"><button class="btn btn-outline btn-sm" onclick="resetTree()" id="reset-tree-btn" style="display:none;">↺ Restart Diagnosis</button></div>
+</div>
+
+<!-- ═══════════════════════ PARTS ═══════════════════════ -->
+<div class="page" id="page-parts">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Oven <span>Parts</span> Library</div>
+      <div class="section-sub">// TAP ANY PART FOR FULL DETAILS, TESTING & REPAIR INFO</div>
+    </div>
+  </div>
+
+  <div class="parts-grid" id="parts-grid"></div>
+
+  <div class="part-detail" id="part-detail" style="margin-top:16px;"></div>
+</div>
+
+<!-- ═══════════════════════ GAS SYSTEM ═══════════════════════ -->
+<div class="page" id="page-gas">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Gas <span>System</span> Reference</div>
+      <div class="section-sub">// PS540GS GAS CIRCUIT PARAMETERS & TROUBLESHOOTING</div>
+    </div>
+  </div>
+
+  <div class="alert-banner" style="margin-bottom:18px;">
+    <span>⚠️</span><span><strong>SAFETY FIRST:</strong> Always shut off gas supply before any gas system work. Use leak detection solution. Never use open flame.</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔵 Gas Pressure Parameters</div>
+      <div class="gas-param"><div><div class="gas-param-name">Natural Gas (NG) Supply</div><div class="gas-param-range">Incoming pressure</div></div><div class="gas-param-val">6 – 12" WC</div></div>
+      <div class="gas-param"><div><div class="gas-param-name">LPG / Propane Supply</div><div class="gas-param-range">Incoming pressure</div></div><div class="gas-param-val">11.5 – 12" WC</div></div>
+      <div class="gas-param"><div><div class="gas-param-name">Manifold Pressure (NG)</div><div class="gas-param-range">At burner manifold</div></div><div class="gas-param-val">3.5" WC</div></div>
+      <div class="gas-param"><div><div class="gas-param-name">Manifold Pressure (LPG)</div><div class="gas-param-range">At burner manifold</div></div><div class="gas-param-val">10" WC</div></div>
+      <div class="gas-param"><div><div class="gas-param-name">BTU Rating</div><div class="gas-param-range">Total heat input</div></div><div class="gas-param-val">110,000 BTU/hr</div></div>
+    </div>
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔧 Gas Components</div>
+      <div class="gas-param"><div><div class="gas-param-name">Main Gas Valve</div><div class="gas-param-range">P/N: 60679 · 24VAC coil</div></div><div><span class="badge badge-blue">Solenoid</span></div></div>
+      <div class="gas-param"><div><div class="gas-param-name">Ignition Module</div><div class="gas-param-range">P/N: 50239</div></div><div><span class="badge badge-orange">Electronic</span></div></div>
+      <div class="gas-param"><div><div class="gas-param-name">Thermocouple Type</div><div class="gas-param-range">P/N: 33812-3</div></div><div><span class="badge badge-blue">Type J</span></div></div>
+      <div class="gas-param"><div><div class="gas-param-name">Temperature Controller</div><div class="gas-param-range">P/N: 47321</div></div><div><span class="badge badge-green">Digital</span></div></div>
+      <div class="gas-param"><div><div class="gas-param-name">Flame Current (min)</div><div class="gas-param-range">Flame sensor output</div></div><div class="gas-param-val">>0.5 µA</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔍 Gas Troubleshooting Guide</div>
+    <table class="spec-table">
+      <tr><th>Issue</th><th>Likely Cause</th><th>Action</th></tr>
+      <tr><td>Gas smell present</td><td>Valve leakage / loose fitting</td><td>Shut off gas, use soap solution, check all fittings</td></tr>
+      <tr><td>Burner won't light</td><td>Low gas pressure / valve not opening</td><td>Check incoming pressure, test valve 24V coil</td></tr>
+      <tr><td>Flame goes out after few seconds</td><td>Flame sensor dirty / ground issue</td><td>Clean flame sensor, check ground connection</td></tr>
+      <tr><td>Yellow/orange flame</td><td>Air-gas mixture incorrect / clogged burner ports</td><td>Check air shutter, clean burner ports</td></tr>
+      <tr><td>Noisy flame / lifting flame</td><td>Gas pressure too high</td><td>Adjust regulator, check pressure gauge</td></tr>
+      <tr><td>Pilot lights but main won't</td><td>Main gas valve solenoid faulty</td><td>Test coil continuity ~40Ω, check 24V supply</td></tr>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">📏 Gas Valve Testing (Multimeter)</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
+      <div style="background:var(--bg-panel);border-radius:8px;padding:12px;">
+        <div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">COIL RESISTANCE</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--accent-cyan);">35 – 45 Ω</div>
+        <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Normal coil reading</div>
+      </div>
+      <div style="background:var(--bg-panel);border-radius:8px;padding:12px;">
+        <div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">COIL VOLTAGE (AC)</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--accent-cyan);">24 VAC</div>
+        <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">When energized</div>
+      </div>
+      <div style="background:var(--bg-panel);border-radius:8px;padding:12px;">
+        <div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">OPEN CIRCUIT</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--accent-red);">OL / ∞</div>
+        <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Coil burned = replace valve</div>
+      </div>
+      <div style="background:var(--bg-panel);border-radius:8px;padding:12px;">
+        <div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">SPARK IGNITER GAP</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--accent-cyan);">1/8" (3.2mm)</div>
+        <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Set gap correctly</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ WIRING ═══════════════════════ -->
+<div class="page" id="page-wiring">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Wiring <span>Reference</span> Guide</div>
+      <div class="section-sub">// CIRCUIT ANALYSIS & VOLTAGE REFERENCE</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">⚡ Control Circuit Voltages</div>
+      <table class="spec-table">
+        <tr><th>Point</th><th>Expected Voltage</th><th>Test Method</th></tr>
+        <tr><td>Main Supply</td><td>208–240 VAC</td><td>L1-L2 at main terminal</td></tr>
+        <tr><td>Control Transformer</td><td>24 VAC secondary</td><td>Sec terminals</td></tr>
+        <tr><td>Gas Valve Coil</td><td>24 VAC (when open)</td><td>Coil terminals</td></tr>
+        <tr><td>Ignition Module Output</td><td>120 VAC spark</td><td>Module → igniter wire</td></tr>
+        <tr><td>Blower Motor</td><td>208–240 VAC</td><td>Motor terminals</td></tr>
+        <tr><td>Conveyor Motor</td><td>120 VAC or 240 VAC</td><td>Motor terminals</td></tr>
+        <tr><td>Thermocouple Signal</td><td>0–50 mV DC</td><td>TC leads, mV mode</td></tr>
+        <tr><td>High Limit Safety</td><td>24 VAC (closed=OK)</td><td>Across contacts</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔌 Circuit Descriptions</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:var(--bg-panel);border-radius:8px;padding:12px;border-left:3px solid var(--accent-blue);">
+          <div style="font-weight:700;margin-bottom:4px;">Control Circuit</div>
+          <div style="font-size:12px;color:var(--text-secondary);">24VAC from transformer → thermostat → high limit → gas valve coil. All safety switches in series.</div>
+        </div>
+        <div style="background:var(--bg-panel);border-radius:8px;padding:12px;border-left:3px solid var(--accent-orange);">
+          <div style="font-weight:700;margin-bottom:4px;">Ignition Circuit</div>
+          <div style="font-size:12px;color:var(--text-secondary);">Ignition module (P/N 50239) generates HV spark. Flame sensor monitors µA signal. Module locks out after 3 retries.</div>
+        </div>
+        <div style="background:var(--bg-panel);border-radius:8px;padding:12px;border-left:3px solid var(--accent-cyan);">
+          <div style="font-weight:700;margin-bottom:4px;">Blower Circuit</div>
+          <div style="font-size:12px;color:var(--text-secondary);">3-phase or single-phase motor. Air pressure switch proves airflow before gas valve energizes. 2300 RPM nominal.</div>
+        </div>
+        <div style="background:var(--bg-panel);border-radius:8px;padding:12px;border-left:3px solid var(--accent-green);">
+          <div style="font-weight:700;margin-bottom:4px;">Conveyor Circuit</div>
+          <div style="font-size:12px;color:var(--text-secondary);">Variable speed via VFD or pot-control. Encoder values: ~260 Test / ~30 Normal-Low / ~380 Normal-High (NORA screen).</div>
+        </div>
+        <div style="background:var(--bg-panel);border-radius:8px;padding:12px;border-left:3px solid var(--accent-red);">
+          <div style="font-weight:700;margin-bottom:4px;">Safety Circuit</div>
+          <div style="font-size:12px;color:var(--text-secondary);">High limit (650°F trips), air pressure switch, door switch, manual reset thermal – all in series, de-energize gas valve.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔬 Common Wiring Faults</div>
+    <table class="spec-table">
+      <tr><th>Symptom</th><th>Circuit</th><th>Test Point</th><th>Fix</th></tr>
+      <tr><td>No spark at igniter</td><td>Ignition</td><td>Module output wire</td><td>Check 24V supply to module, replace module if no output</td></tr>
+      <tr><td>Flame sensor alarm</td><td>Ignition</td><td>µA reading at module</td><td>Clean sensor, check ground – most common root cause</td></tr>
+      <tr><td>Gas valve not opening</td><td>Control</td><td>Valve coil terminals</td><td>Check 24V present, coil resistance 35-45Ω</td></tr>
+      <tr><td>High limit trips</td><td>Safety</td><td>Limit contacts</td><td>Let cool, reset manually, check blower airflow</td></tr>
+      <tr><td>Blower won't start</td><td>Blower</td><td>Motor terminals</td><td>Check contactor, capacitor (single phase), overload</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════ BLOWER ═══════════════════════ -->
+<div class="page" id="page-blower">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Blower <span>Motor</span> System</div>
+      <div class="section-sub">// DIAGNOSIS & REPAIR GUIDE</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">💨 Blower Specifications</div>
+      <div class="gas-param"><div class="gas-param-name">Rated Speed</div><div class="gas-param-val">2300 RPM</div></div>
+      <div class="gas-param"><div class="gas-param-name">Supply Voltage</div><div class="gas-param-val">208–240 VAC</div></div>
+      <div class="gas-param"><div class="gas-param-name">Motor Type</div><div class="gas-param-val">Induction / PSC</div></div>
+      <div class="gas-param"><div class="gas-param-name">Capacitor (start/run)</div><div class="gas-param-val">Check label</div></div>
+      <div class="gas-param"><div class="gas-param-name">Air Pressure Switch</div><div class="gas-param-val">Proves airflow before ignition</div></div>
+    </div>
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔍 Blower Troubleshooting</div>
+      <table class="spec-table">
+        <tr><th>Issue</th><th>Cause</th><th>Action</th></tr>
+        <tr><td>Motor not starting</td><td>Capacitor weak/dead</td><td>Test capacitor, replace if low</td></tr>
+        <tr><td>Motor hums but no spin</td><td>Start capacitor fail</td><td>Replace start capacitor</td></tr>
+        <tr><td>Motor overheats</td><td>Dirty fins / bad bearing</td><td>Clean motor, check bearing, check voltage</td></tr>
+        <tr><td>Motor trips breaker</td><td>Winding short / overload</td><td>Measure winding resistance, check OL setting</td></tr>
+        <tr><td>Low airflow</td><td>Clogged duct / dirty wheel</td><td>Clean blower wheel, inspect duct</td></tr>
+        <tr><td>Air switch not closing</td><td>Low pressure / bad switch</td><td>Check tubing, test switch continuity</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">📏 Blower Motor Testing (Multimeter)</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">
+      <div style="background:var(--bg-panel);border-radius:8px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">WINDING RESISTANCE</div><div style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--accent-cyan);">2 – 15 Ω</div><div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Main winding (varies by motor)</div></div>
+      <div style="background:var(--bg-panel);border-radius:8px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">INSULATION TEST</div><div style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--accent-cyan);">>1 MΩ</div><div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Winding to ground (500V megger)</div></div>
+      <div style="background:var(--bg-panel);border-radius:8px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">CAPACITOR TEST</div><div style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--accent-cyan);">±10% rated µF</div><div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Use capacitance mode</div></div>
+      <div style="background:var(--bg-panel);border-radius:8px;padding:12px;"><div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">RUNNING CURRENT</div><div style="font-family:'Share Tech Mono',monospace;font-size:15px;color:var(--accent-cyan);">Per nameplate FLA</div><div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Check with clamp meter</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ CONVEYOR ═══════════════════════ -->
+<div class="page" id="page-conveyor">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Conveyor <span>System</span></div>
+      <div class="section-sub">// BELT / MOTOR / ENCODER DIAGNOSTICS</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔄 NORA Screen Encoder Values</div>
+      <div class="gas-param"><div><div class="gas-param-name">Test Mode</div></div><div class="gas-param-val">~260</div></div>
+      <div class="gas-param"><div><div class="gas-param-name">Normal Low Speed</div></div><div class="gas-param-val">~30</div></div>
+      <div class="gas-param"><div><div class="gas-param-name">Normal High Speed</div></div><div class="gas-param-val">~380</div></div>
+      <div class="gas-param"><div><div class="gas-param-name">Conveyor Speed Range</div></div><div class="gas-param-val">2–7 min/cycle</div></div>
+    </div>
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔍 Conveyor Troubleshooting</div>
+      <table class="spec-table">
+        <tr><th>Issue</th><th>Cause</th><th>Action</th></tr>
+        <tr><td>Belt not moving</td><td>Motor fail / drive board</td><td>Check motor voltage, inspect drive board</td></tr>
+        <tr><td>Belt too slow</td><td>Speed pot / encoder</td><td>Check encoder values on NORA screen</td></tr>
+        <tr><td>Belt slipping</td><td>Worn belt / loose tension</td><td>Adjust belt tension, inspect for wear</td></tr>
+        <tr><td>Belt tracking off</td><td>Misaligned rollers</td><td>Adjust tracking screws</td></tr>
+        <tr><td>Conveyor jam</td><td>Food debris / belt damage</td><td>Clear jam, inspect belt condition</td></tr>
+        <tr><td>Noisy drive</td><td>Worn chain / dry bearings</td><td>Lubricate chain, check bearings</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PM CHECKLIST ═══════════════════════ -->
+<div class="page" id="page-pm">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Preventive <span>Maintenance</span></div>
+      <div class="section-sub">// DAILY / WEEKLY / MONTHLY / QUARTERLY PM SCHEDULE</div>
+    </div>
+    <button class="btn btn-orange btn-sm" onclick="exportPMReport()">📄 Generate PM Report</button>
+  </div>
+
+  <div class="pm-freq-tabs">
+    <div class="pm-tab active" onclick="showPM('daily',this)">Daily</div>
+    <div class="pm-tab" onclick="showPM('weekly',this)">Weekly</div>
+    <div class="pm-tab" onclick="showPM('monthly',this)">Monthly</div>
+    <div class="pm-tab" onclick="showPM('quarterly',this)">Quarterly</div>
+  </div>
+
+  <div id="pm-content"></div>
+
+  <div style="margin-top:16px;padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px;">📊 PM Progress</div>
+    <div id="pm-progress-bar" style="height:10px;background:var(--bg-panel);border-radius:5px;overflow:hidden;margin-bottom:8px;"><div id="pm-progress-fill" style="height:100%;background:linear-gradient(90deg,var(--accent-green),#00bfa5);border-radius:5px;transition:width 0.5s;width:0%"></div></div>
+    <div id="pm-progress-text" style="font-size:12px;color:var(--text-secondary);font-family:'Share Tech Mono',monospace;">0 / 0 tasks completed</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ NOTES ═══════════════════════ -->
+<div class="page" id="page-notes">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Technician <span>Notes</span></div>
+      <div class="section-sub">// STORE-WISE REPAIR OBSERVATIONS & FIELD NOTES</div>
+    </div>
+  </div>
+
+  <div class="notes-area">
+    <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;font-family:'Share Tech Mono',monospace;">NEW REPAIR NOTE</div>
+    <textarea class="notes-input" id="note-text" placeholder="Describe the breakdown, repair steps taken, observations, parts replaced..."></textarea>
+    <div class="notes-meta">
+      <input type="text" id="note-store" placeholder="Store Name (e.g. IIT Powai)">
+      <select id="note-type" style="background:var(--bg-panel);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--text-primary);font-family:'Exo 2',sans-serif;font-size:12px;outline:none;">
+        <option>Breakdown Repair</option>
+        <option>PM Done</option>
+        <option>Observation</option>
+        <option>Part Replaced</option>
+        <option>Lesson Learned</option>
+      </select>
+      <input type="text" id="note-equip" placeholder="Equipment / Component">
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;">
+      <button class="btn btn-primary btn-sm" onclick="saveNote()">💾 Save Note</button>
+      <button class="btn btn-outline btn-sm" onclick="clearNote()">🗑️ Clear</button>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">📋 Saved Notes</div>
+    <div id="notes-list"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MEMORY ═══════════════════════ -->
+<div class="page" id="page-memory">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Store <span>Memory</span> System</div>
+      <div class="section-sub">// STORE-WISE BREAKDOWN HISTORY & TECHNICIAN LEARNING</div>
+    </div>
+  </div>
+
+  <div class="alert-banner info" style="margin-bottom:16px;">
+    <span>💡</span><span><strong>Memory System:</strong> Tracks repeated breakdowns per store. Helps identify patterns and prevent recurring failures.</span>
+  </div>
+
+  <div id="memory-list">
+    <div class="memory-card">
+      <div class="memory-header">
+        <div><div class="memory-store">🏪 IIT Powai</div><div style="font-size:11px;color:var(--text-muted);">Store ID: DW1-001 · 3 incidents logged</div></div>
+        <div><span class="badge badge-red">High Risk</span></div>
+      </div>
+      <div class="memory-item"><div class="memory-dot" style="background:var(--accent-red)"></div><span>Ignition failure — 3 times (root: ground connection)</span><div style="margin-left:auto;font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;">Recurring</div></div>
+      <div class="memory-item"><div class="memory-dot" style="background:var(--accent-orange)"></div><span>Conveyor belt replaced — worn after 8 months</span><div style="margin-left:auto;font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;">May 2026</div></div>
+      <div class="memory-item"><div class="memory-dot" style="background:var(--accent-yellow)"></div><span>Blower capacitor weak — replaced 40µF cap</span><div style="margin-left:auto;font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;">Mar 2026</div></div>
+      <div style="margin-top:10px;padding:10px;background:rgba(30,144,255,0.06);border-radius:7px;border-left:3px solid var(--accent-blue);font-size:12px;color:var(--text-secondary);">💡 <strong>AI Insight:</strong> Ignition failures at this store consistently traced to poor grounding. Recommend monthly ground connection check as preventive measure.</div>
+    </div>
+
+    <div class="memory-card">
+      <div class="memory-header">
+        <div><div class="memory-store">🏪 Kurla Shelter</div><div style="font-size:11px;color:var(--text-muted);">Store ID: DW1-002 · 2 incidents logged</div></div>
+        <div><span class="badge badge-orange">Watch</span></div>
+      </div>
+      <div class="memory-item"><div class="memory-dot" style="background:var(--accent-orange)"></div><span>Similar ignition issue as IIT Powai — 2 months ago</span></div>
+      <div class="memory-item"><div class="memory-dot" style="background:var(--accent-blue)"></div><span>Temperature calibration done — controller offset corrected</span></div>
+      <div style="margin-top:10px;padding:10px;background:rgba(255,107,26,0.06);border-radius:7px;border-left:3px solid var(--accent-orange);font-size:12px;color:var(--text-secondary);">💡 <strong>Learning:</strong> Same ignition issue from IIT Powai appeared here. Apply IIT Powai fix (ground check) first before deep diagnosis.</div>
+    </div>
+
+    <div class="memory-card">
+      <div class="memory-header">
+        <div><div class="memory-store">🏪 Andheri West</div><div style="font-size:11px;color:var(--text-muted);">Store ID: DW1-003 · 1 incident logged</div></div>
+        <div><span class="badge badge-green">Stable</span></div>
+      </div>
+      <div class="memory-item"><div class="memory-dot" style="background:var(--accent-yellow)"></div><span>Temperature low — thermocouple replaced (P/N 33812-3)</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;">🧠 Technician Learning Memory</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:9px;padding:14px;border-left:3px solid var(--accent-green);">
+        <div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">LESSON LEARNED #1</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:4px;">60% Flame Failures = Ground Issue</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Always check earth/ground connection before replacing ignition module. Saves time and parts cost.</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:9px;padding:14px;border-left:3px solid var(--accent-blue);">
+        <div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">LESSON LEARNED #2</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Blower Capacitor = Check First</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Weak capacitor mimics motor failure. Quick test with capacitance mode saves motor replacement.</div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:9px;padding:14px;border-left:3px solid var(--accent-orange);">
+        <div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:6px;">LESSON LEARNED #3</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Low Temp = Type J TC First</div>
+        <div style="font-size:12px;color:var(--text-secondary);">Check thermocouple mV reading before replacing temperature controller. TC often the culprit.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ LEARNING ═══════════════════════ -->
+<div class="page" id="page-learning">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Learning <span>Mode</span></div>
+      <div class="section-sub">// FAST TECHNICAL LEARNING · BEGINNER TO EXPERT</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="learn-card" onclick="openLesson('ignition')">
+      <div class="learn-level" style="color:var(--accent-green)">🟢 BEGINNER</div>
+      <div class="learn-title">Ignition System Basics</div>
+      <div class="learn-desc">Learn how PS540GS ignition works: spark, flame sensor, lockout sequence, and module operation.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:11px;color:var(--text-muted);">12 topics · ~20 min</span>
+        <span class="badge badge-green">Start</span>
+      </div>
+      <div class="learn-progress"><div class="learn-progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="learn-card" onclick="openLesson('gas')">
+      <div class="learn-level" style="color:var(--accent-yellow)">🟡 INTERMEDIATE</div>
+      <div class="learn-title">Gas System Mastery</div>
+      <div class="learn-desc">Gas valves, pressure testing, burner adjustment, thermocouple calibration, and safety interlock understanding.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:11px;color:var(--text-muted);">18 topics · ~35 min</span>
+        <span class="badge badge-yellow">Start</span>
+      </div>
+      <div class="learn-progress"><div class="learn-progress-fill" style="width:30%;background:linear-gradient(90deg,var(--accent-yellow),#ff9800)"></div></div>
+    </div>
+
+    <div class="learn-card" onclick="openLesson('electrical')">
+      <div class="learn-level" style="color:var(--accent-red)">🔴 EXPERT</div>
+      <div class="learn-title">Full Electrical Troubleshooting</div>
+      <div class="learn-desc">Control board diagnosis, voltage tracing, relay testing, wiring fault isolation, and advanced fault diagnosis.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:11px;color:var(--text-muted);">24 topics · ~50 min</span>
+        <span class="badge badge-red">Advanced</span>
+      </div>
+      <div class="learn-progress"><div class="learn-progress-fill" style="width:10%;background:linear-gradient(90deg,var(--accent-red),var(--accent-orange))"></div></div>
+    </div>
+
+    <div class="learn-card" onclick="openLesson('conveyor')">
+      <div class="learn-level" style="color:var(--accent-blue)">🔵 INTERMEDIATE</div>
+      <div class="learn-title">Conveyor System Deep Dive</div>
+      <div class="learn-desc">Belt mechanics, encoder reading, NORA screen diagnosis, speed adjustment, and belt replacement procedure.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:11px;color:var(--text-muted);">10 topics · ~18 min</span>
+        <span class="badge badge-blue">Start</span>
+      </div>
+      <div class="learn-progress"><div class="learn-progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="learn-card" onclick="openLesson('pm')">
+      <div class="learn-level" style="color:var(--accent-green)">🟢 BEGINNER</div>
+      <div class="learn-title">PM Best Practices</div>
+      <div class="learn-desc">Preventive maintenance schedule mastery, what to check, how to document, and how to prevent breakdowns.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:11px;color:var(--text-muted);">8 topics · ~15 min</span>
+        <span class="badge badge-green">Start</span>
+      </div>
+      <div class="learn-progress"><div class="learn-progress-fill" style="width:60%"></div></div>
+    </div>
+
+    <div class="learn-card" onclick="showPage('quiz')">
+      <div class="learn-level" style="color:var(--accent-cyan)">🎯 TEST</div>
+      <div class="learn-title">Take a Quiz</div>
+      <div class="learn-desc">Test your knowledge with real breakdown scenarios. Multiple choice questions based on field experience.</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:11px;color:var(--text-muted);">20 questions</span>
+        <span class="badge badge-blue">Quiz Mode</span>
+      </div>
+      <div class="learn-progress"><div class="learn-progress-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- LESSON MODAL CONTENT shown via modal -->
+</div>
+
+<!-- ═══════════════════════ QUIZ ═══════════════════════ -->
+<div class="page" id="page-quiz">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Quiz <span>Mode</span></div>
+      <div class="section-sub">// TEST YOUR OVEN TROUBLESHOOTING KNOWLEDGE</div>
+    </div>
+  </div>
+
+  <div id="quiz-container"></div>
+  <div class="quiz-score" id="quiz-score">
+    <div style="font-size:14px;color:var(--text-muted);margin-bottom:8px;">Your Score</div>
+    <div class="quiz-score-num" id="score-num">0/5</div>
+    <div style="font-size:14px;color:var(--text-secondary);margin-top:8px;" id="score-msg"></div>
+    <button class="btn btn-primary" style="margin-top:20px;" onclick="startQuiz()">🔁 Try Again</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════ ANALYTICS ═══════════════════════ -->
+<div class="page" id="page-analytics">
+  <div class="section-header">
+    <div>
+      <div class="section-title">Breakdown <span>Analytics</span></div>
+      <div class="section-sub">// DPI WEST 1 PERFORMANCE DASHBOARD</div>
+    </div>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:18px;">
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(255,61,61,0.15);">🔥</div><div><div class="stat-val" style="color:var(--accent-red);">47</div><div class="stat-label">Total Breakdowns (YTD)</div></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(0,230,118,0.15);">✅</div><div><div class="stat-val" style="color:var(--accent-green);">44</div><div class="stat-label">Resolved</div></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(30,144,255,0.15);">⏱️</div><div><div class="stat-val" style="color:var(--accent-blue);">38m</div><div class="stat-label">Avg MTTR</div></div></div>
+    <div class="stat-card"><div class="stat-icon" style="background:rgba(255,214,0,0.15);">📈</div><div><div class="stat-val" style="color:var(--accent-yellow);">93%</div><div class="stat-label">First-Call Resolution</div></div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;">📊 Breakdown by Component</div>
+      <div class="chart-bar-container">
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Ignition Module</span><span>18 cases</span></div><div class="chart-bar-track"><div class="chart-bar-fill red" style="width:85%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Flame Sensor</span><span>12 cases</span></div><div class="chart-bar-track"><div class="chart-bar-fill orange" style="width:60%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Thermocouple</span><span>7 cases</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:38%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Conveyor Belt</span><span>5 cases</span></div><div class="chart-bar-track"><div class="chart-bar-fill green" style="width:28%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Blower Capacitor</span><span>4 cases</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:22%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Gas Valve</span><span>1 case</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:8%"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;">🏪 Store-wise Incidents</div>
+      <div class="chart-bar-container">
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>IIT Powai</span><span>14 incidents</span></div><div class="chart-bar-track"><div class="chart-bar-fill red" style="width:80%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Kurla Shelter</span><span>11 incidents</span></div><div class="chart-bar-track"><div class="chart-bar-fill orange" style="width:65%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Andheri West</span><span>9 incidents</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:52%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Borivali</span><span>8 incidents</span></div><div class="chart-bar-track"><div class="chart-bar-fill green" style="width:46%"></div></div></div>
+        <div class="chart-bar-item"><div class="chart-bar-label"><span>Malad</span><span>5 incidents</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:30%"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div style="font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;margin-bottom:14px;">⏱️ Monthly MTTR Trend</div>
+    <div class="chart-bar-container">
+      <div class="chart-bar-item"><div class="chart-bar-label"><span>January</span><span>52 min</span></div><div class="chart-bar-track"><div class="chart-bar-fill red" style="width:85%"></div></div></div>
+      <div class="chart-bar-item"><div class="chart-bar-label"><span>February</span><span>48 min</span></div><div class="chart-bar-track"><div class="chart-bar-fill orange" style="width:75%"></div></div></div>
+      <div class="chart-bar-item"><div class="chart-bar-label"><span>March</span><span>44 min</span></div><div class="chart-bar-track"><div class="chart-bar-fill orange" style="width:68%"></div></div></div>
+      <div class="chart-bar-item"><div class="chart-bar-label"><span>April</span><span>41 min</span></div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:60%"></div></div></div>
+      <div class="chart-bar-item"><div class="chart-bar-label"><span>May</span><span>38 min</span></div><div class="chart-bar-track"><div class="chart-bar-fill green" style="width:54%"></div></div></div>
+    </div>
+    <div style="font-size:12px;color:var(--accent-green);margin-top:8px;">📈 MTTR improving by ~3 min/month — excellent trend!</div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════
+
+const troubleshootDB = {
+  'burner not igniting': {
+    title: 'Burner Not Igniting',
+    severity: 'HIGH',
+    safety: '⚠️ Turn off gas supply valve before inspection. Check for gas smell — ventilate area if detected. Never test with open flame.',
+    causes: [
+      { rank: 1, text: 'Ground/Earth connection loose or corroded', prob: '60% probability — most common!' },
+      { rank: 2, text: 'Ignition module faulty (P/N 50239)', prob: '15% probability' },
+      { rank: 3, text: 'Flame sensor dirty or mispositioned', prob: '10% probability' },
+      { rank: 4, text: 'Gas pressure low or valve not opening', prob: '8% probability' },
+      { rank: 5, text: 'Spark igniter gap incorrect (should be 1/8")', prob: '5% probability' },
+      { rank: 6, text: 'Solenoid valve coil failure (P/N 60679)', prob: '2% probability' }
+    ],
+    tools: ['🔧 Multimeter', '🔧 Manometer', '🔧 Screwdriver Set', '🔧 Leak Detector', '🔧 Spark Tester'],
+    steps: [
+      { num: 1, title: 'SAFETY CHECK — Check Gas & Power', desc: 'Verify gas supply valve is OPEN. Check for gas smell — if present, ventilate immediately. Check main power ON. Turn oven on and observe.', reading: { 'Supply Voltage': '208-240VAC', 'Gas Pressure (NG)': '6-12" WC' } },
+      { num: 2, title: 'CHECK GROUND CONNECTION', desc: 'Inspect earth/ground wire at ignition module, control board, and chassis. Tighten any loose ground screws. Clean corroded ground points. This resolves 60% of flame failures!', reading: { 'Ground Resistance': '<1Ω', 'Visual': 'Clean, tight connection' } },
+      { num: 3, title: 'TEST IGNITION SPARK', desc: 'Observe spark at igniter during start cycle. Spark should be strong blue-white, continuous during trial for ignition. Measure gap with feeler gauge.', reading: { 'Spark Gap': '1/8" (3.2mm)', 'Expected': 'Strong blue spark' } },
+      { num: 4, title: 'CHECK FLAME SENSOR SIGNAL', desc: 'Measure µA signal at ignition module flame sensor terminal. Low reading indicates dirty sensor. Clean with fine emery cloth — do not use sandpaper.', reading: { 'Min Flame Current': '>0.5 µA', 'Low Reading': 'Clean sensor' } },
+      { num: 5, title: 'TEST GAS VALVE (P/N 60679)', desc: 'Check 24VAC at valve coil when energized. Measure coil resistance. If voltage present but valve not opening — replace valve.', reading: { 'Coil Voltage': '24VAC', 'Coil Resistance': '35-45 Ω', 'Open Circuit': 'Replace valve' } },
+      { num: 6, title: 'CHECK IGNITION MODULE (P/N 50239)', desc: 'Verify 24VAC supply to module. Check module output to spark igniter. If no output despite correct input — replace module.', reading: { 'Module Input': '24VAC', 'Spark Output': '120VAC HV' } },
+      { num: 7, title: 'RESET & TEST', desc: 'After repair, reset ignition module (if locked out). Perform full ignition test cycle. Confirm stable flame >30 seconds before declaring resolved.', reading: { 'Flame Hold': '>30 sec', 'Flame Current': '>0.5 µA' } }
+    ],
+    refs: { 'Gas (NG)': '6-12" WC', 'Gas (LPG)': '11.5-12" WC', 'Spark Gap': '1/8"', 'Flame µA': '>0.5', 'Valve P/N': '60679', 'Module P/N': '50239' }
+  },
+  'temperature low': {
+    title: 'Low Temperature Issue',
+    severity: 'MEDIUM',
+    safety: '⚠️ Allow oven to cool before internal inspection. Use heat-resistant gloves. Do not bypass temperature safety controls.',
+    causes: [
+      { rank: 1, text: 'Type J Thermocouple faulty/degraded (P/N 33812-3)', prob: '40% probability' },
+      { rank: 2, text: 'Gas pressure below specification', prob: '25% probability' },
+      { rank: 3, text: 'Temperature controller offset/calibration (P/N 47321)', prob: '15% probability' },
+      { rank: 4, text: 'Burner partially blocked or dirty', prob: '10% probability' },
+      { rank: 5, text: 'Blower speed low — less heat circulation', prob: '7% probability' },
+      { rank: 6, text: 'Door seals worn — heat escaping', prob: '3% probability' }
+    ],
+    tools: ['🔧 Multimeter (mV mode)', '🔧 Manometer', '🔧 Reference Thermometer', '🔧 Screwdriver'],
+    steps: [
+      { num: 1, title: 'VERIFY ACTUAL vs SETPOINT TEMP', desc: 'Use calibrated reference thermometer inside oven to verify actual temperature. Compare with controller display. Note difference.', reading: { 'Max Temp': '550°F', 'High Limit': '650°F' } },
+      { num: 2, title: 'TEST THERMOCOUPLE (P/N 33812-3)', desc: 'Disconnect TC from controller. Measure mV output with multimeter at operating temp. Type J: 0°C = 0mV, 100°C ≈ 5.3mV, 300°C ≈ 16.8mV.', reading: { 'TC Type': 'Type J', '300°C Reading': '~16.8 mV', 'Low mV': 'Replace TC' } },
+      { num: 3, title: 'CHECK GAS PRESSURE', desc: 'Connect manometer to test port. Measure incoming gas pressure and manifold pressure. Compare with specification.', reading: { 'NG Incoming': '6-12" WC', 'LPG Incoming': '11.5-12" WC' } },
+      { num: 4, title: 'CALIBRATE TEMPERATURE CONTROLLER', desc: 'Access controller (P/N 47321) calibration menu. Check offset parameter. Adjust if actual temp differs from display by >5°F.', reading: { 'Controller P/N': '47321', 'Tolerance': '±5°F' } },
+      { num: 5, title: 'INSPECT BURNER', desc: 'After cooling, inspect burner ports for blockage. Clean ports with wire brush. Check air shutter position for correct air-gas mixture.', reading: { 'Flame Color': 'Blue/blue-orange tips', 'Yellow Flame': 'Blocked ports / air issue' } }
+    ],
+    refs: { 'TC P/N': '33812-3', 'TC Type': 'Type J', 'Controller P/N': '47321', 'Max Temp': '550°F', 'High Limit': '650°F' }
+  },
+  'flame failure': {
+    title: 'Flame Failure / Lockout',
+    severity: 'HIGH',
+    safety: '⚠️ Do NOT repeatedly attempt restart without diagnosis — this wastes gas and is dangerous. Ventilate area if gas smell present.',
+    causes: [
+      { rank: 1, text: 'Ground/Earth connection fault — #1 root cause (60%)', prob: '60% probability — CHECK THIS FIRST!' },
+      { rank: 2, text: 'Flame sensor contaminated (grease/carbon)', prob: '20% probability' },
+      { rank: 3, text: 'Flame sensor positioned incorrectly', prob: '8% probability' },
+      { rank: 4, text: 'Low gas pressure during operation', prob: '7% probability' },
+      { rank: 5, text: 'Ignition module lockout (requires manual reset)', prob: '5% probability' }
+    ],
+    tools: ['🔧 Multimeter (µA mode)', '🔧 Fine emery cloth', '🔧 Ground tester', '🔧 Manometer'],
+    steps: [
+      { num: 1, title: 'CHECK GROUND — DO THIS FIRST!', desc: 'Inspect all ground/earth connections at: ignition module, control board, chassis, and gas valve. Tighten and clean all ground points. This single step resolves 60% of flame failures.', reading: { 'Ground Resistance': '<1Ω to earth', 'Visual': 'No corrosion, tight connection' } },
+      { num: 2, title: 'CLEAN FLAME SENSOR', desc: 'Locate flame sensor rod (porcelain insulated rod in burner flame path). Remove and clean with fine emery cloth to remove grease/carbon coating. Reinstall securely.', reading: { 'Flame Current': '>0.5 µA', 'After Cleaning': 'Retest µA reading' } },
+      { num: 3, title: 'VERIFY SENSOR POSITION', desc: 'Flame sensor rod must be in the outer mantle of the flame, not the inner cone. Reposition if needed. Check ceramic insulator for cracks.', reading: { 'Position': 'In flame outer mantle', 'Insulation': 'No cracks' } },
+      { num: 4, title: 'RESET IGNITION MODULE', desc: 'After addressing root cause, reset ignition module lockout. Module resets via power cycle or manual reset button depending on model.', reading: { 'Module P/N': '50239', 'Lockout': 'Auto or manual reset' } }
+    ],
+    refs: { 'Ground': 'Check first!', 'Flame µA': '>0.5', 'Module P/N': '50239', 'TC P/N': '33812-3' }
+  },
+  'blower motor trip': {
+    title: 'Blower Motor Trip',
+    severity: 'HIGH',
+    safety: '⚠️ Isolate power before motor inspection. Do not bypass overload protection — motor may be hot. Allow motor to cool before testing.',
+    causes: [
+      { rank: 1, text: 'Overload protection tripped (thermal)', prob: '35% probability' },
+      { rank: 2, text: 'Run capacitor weak or failed', prob: '30% probability' },
+      { rank: 3, text: 'Motor windings overheating (dirty/clogged motor)', prob: '20% probability' },
+      { rank: 4, text: 'Supply voltage incorrect', prob: '10% probability' },
+      { rank: 5, text: 'Motor bearing seized', prob: '5% probability' }
+    ],
+    tools: ['🔧 Multimeter', '🔧 Clamp Ammeter', '🔧 Capacitance Meter', '🔧 Screwdriver'],
+    steps: [
+      { num: 1, title: 'CHECK OVERLOAD', desc: 'Locate motor overload protector. If tripped, allow motor to cool 10-15 minutes. Reset overload. If trips again immediately — do not reset again, investigate motor.', reading: { 'Motor Temp': 'Cool before reset', 'Current': 'Check vs nameplate FLA' } },
+      { num: 2, title: 'TEST CAPACITOR', desc: 'Discharge capacitor safely. Measure capacitance value. Compare to nameplate rating. Replace if outside ±10% tolerance.', reading: { 'Tolerance': '±10% of rated µF', 'Test Mode': 'Capacitance (F)' } },
+      { num: 3, title: 'MEASURE RUNNING CURRENT', desc: 'Use clamp ammeter while motor runs. Compare to nameplate Full Load Amps. High current = overloaded / bad bearing. Low current = capacitor issue.', reading: { 'Expected': 'Per nameplate FLA', 'High Current': 'Bad bearing/overload', 'Low Current': 'Weak capacitor' } },
+      { num: 4, title: 'CHECK MOTOR WINDINGS', desc: 'Measure winding resistance (main and aux). OL reading = open winding. 0Ω = short. Check megger insulation >1MΩ.', reading: { 'Winding R': '2-15 Ω (motor specific)', 'Insulation': '>1MΩ to ground' } }
+    ],
+    refs: { 'Blower RPM': '2300 RPM', 'Capacitor': '±10% rated µF', 'Insulation': '>1MΩ' }
+  },
+  'conveyor not rotating': {
+    title: 'Conveyor Belt Not Rotating',
+    severity: 'HIGH',
+    safety: '⚠️ Isolate power before inspecting conveyor mechanism. Keep hands clear of belt drive during testing. Do not run oven without belt if thermal damage risk.',
+    causes: [
+      { rank: 1, text: 'Drive motor fault', prob: '35% probability' },
+      { rank: 2, text: 'Speed control/VFD fault', prob: '25% probability' },
+      { rank: 3, text: 'Belt jammed (food debris)', prob: '20% probability' },
+      { rank: 4, text: 'Chain or drive sprocket broken', prob: '15% probability' },
+      { rank: 5, text: 'Encoder or speed pot fault', prob: '5% probability' }
+    ],
+    tools: ['🔧 Multimeter', '🔧 Screwdriver', '🔧 Flashlight'],
+    steps: [
+      { num: 1, title: 'VISUAL INSPECTION', desc: 'Check belt for visible jam, torn sections, or derailment. Clear any food debris from belt path and drive sprockets.', reading: { 'Visual': 'No jam, no damage', 'Belt': 'On track, no tears' } },
+      { num: 2, title: 'CHECK CONVEYOR MOTOR VOLTAGE', desc: 'Measure voltage at conveyor motor terminals during operation. If voltage present but motor not turning — motor fault. If no voltage — check speed control output.', reading: { 'Motor Voltage': '120VAC or 240VAC', 'No Voltage': 'Check speed control' } },
+      { num: 3, title: 'CHECK NORA SCREEN ENCODER VALUES', desc: 'Access NORA display screen. Check encoder pulse count. Normal values: Test ~260, Low ~30, High ~380. Zero reading = encoder fault.', reading: { 'Test Mode': '~260', 'Normal Low': '~30', 'Normal High': '~380' } },
+      { num: 4, title: 'INSPECT CHAIN & DRIVE', desc: 'Check drive chain for breakage or stiff links. Check sprocket for worn teeth. Lubricate chain if dry.', reading: { 'Chain': 'No broken links', 'Lubrication': 'Light machine oil' } }
+    ],
+    refs: { 'Encoder Test': '~260', 'Encoder Low': '~30', 'Encoder High': '~380', 'Speed Range': '2-7 min/cycle' }
+  },
+  'oven overheating': {
+    title: 'Oven Overheating',
+    severity: 'CRITICAL',
+    safety: '🚨 CRITICAL: Shut down oven immediately if overheating. High limit switch at 650°F is last safety resort. Do not bypass safety switches.',
+    causes: [
+      { rank: 1, text: 'Temperature controller faulty — not cutting off gas', prob: '35% probability' },
+      { rank: 2, text: 'Gas valve stuck open', prob: '25% probability' },
+      { rank: 3, text: 'Thermocouple reading incorrect (falsely low)', prob: '20% probability' },
+      { rank: 4, text: 'High limit switch failed (bypassed)', prob: '15% probability' },
+      { rank: 5, text: 'Blower failure causing heat buildup', prob: '5% probability' }
+    ],
+    tools: ['🔧 Reference Thermometer', '🔧 Multimeter', '🔧 Manometer'],
+    steps: [
+      { num: 1, title: 'SHUT DOWN IMMEDIATELY', desc: 'Turn oven off. Wait for safe temp. NEVER bypass high limit switch (650°F). Verify high limit switch is functional.', reading: { 'High Limit': '650°F', 'Max Operating': '550°F' } },
+      { num: 2, title: 'CHECK TEMPERATURE CONTROLLER', desc: 'Verify controller (P/N 47321) setpoint. Test controller output signal to gas valve. If controller calling for heat at over-temp — controller fault.', reading: { 'Controller P/N': '47321', 'Setpoint Check': 'Compare to actual temp' } },
+      { num: 3, title: 'CHECK THERMOCOUPLE READING', desc: 'Use reference thermometer to get actual oven temp. Compare with TC display. If TC reads low but oven is hot — TC fault causing runaway.', reading: { 'TC P/N': '33812-3', 'TC Type': 'Type J' } },
+      { num: 4, title: 'TEST GAS VALVE', desc: 'With power to valve OFF, check if gas still flows. If yes — valve stuck open. Replace gas valve immediately.', reading: { 'Valve P/N': '60679', 'Stuck Open': 'Replace immediately' } }
+    ],
+    refs: { 'High Limit': '650°F', 'Max Temp': '550°F', 'Controller P/N': '47321', 'Valve P/N': '60679' }
+  }
+};
+
+const partsData = [
+  { id: 'ignition', emoji: '⚡', name: 'Ignition Module', pn: 'P/N 50239', status: 'Critical Part', color: 'var(--accent-orange)',
+    fn: 'Generates high-voltage spark to ignite gas burner. Controls trial-for-ignition sequence and locks out after failed attempts.',
+    symptoms: 'No spark, intermittent ignition, immediate lockout, no flame signal processing',
+    testing: 'Check 24VAC input. Verify HV spark output wire. Module LED status (if equipped). Measure flame current at sensor terminal.',
+    reading: '24VAC input supply · HV spark output · Flame signal >0.5µA',
+    replacement: 'Disconnect power. Label all wires. Remove module. Install new P/N 50239. Reconnect all wires. Test full ignition cycle.',
+    pm: 'Clean dust every 3 months. Check wire connections. Verify ground connection (critical). Check spark gap 1/8".' },
+  { id: 'flame-sensor', emoji: '🔥', name: 'Flame Sensor', pn: 'Sensing rod in burner', status: 'High Failure Rate', color: 'var(--accent-red)',
+    fn: 'Senses presence of flame via flame rectification (µA current signal). Signals ignition module that combustion is established.',
+    symptoms: 'Flame failure after ignition, short flame hold time, frequent lockouts, µA reading low',
+    testing: 'Measure µA at ignition module sensor terminal. Min >0.5µA. Clean if reading low. Check ceramic insulator for cracks.',
+    reading: 'Normal: >0.5µA · Low: Clean sensor · Zero: Check wiring/ground',
+    replacement: 'Remove sensor rod. Clean or replace. Ensure proper positioning in flame outer mantle. Check ceramic insulator.',
+    pm: 'Clean with fine emery cloth monthly. Check position. Inspect ceramic insulator. Verify ground connection.' },
+  { id: 'gas-valve', emoji: '🔵', name: 'Gas Solenoid Valve', pn: 'P/N 60679', status: 'Key Component', color: 'var(--accent-blue)',
+    fn: 'Electromagnetically operated valve that controls gas flow to burner. Opens when energized by 24VAC from control circuit.',
+    symptoms: 'No gas flow to burner, gas continuously flowing, valve clicking but not opening, gas smell',
+    testing: 'Check 24VAC at coil when energized. Measure coil resistance 35-45Ω. OL reading = coil failure. Listen for click when energized.',
+    reading: 'Coil: 35-45Ω · Voltage: 24VAC · OL = Replace valve',
+    replacement: 'Turn off gas supply valve. Remove valve carefully. Note orientation. Install new P/N 60679. Check for leaks with soap solution.',
+    pm: 'Check coil resistance quarterly. Inspect for gas leaks. Verify proper valve actuation. Never force valve open manually.' },
+  { id: 'thermocouple', emoji: '🌡️', name: 'Type J Thermocouple', pn: 'P/N 33812-3', status: 'Wear Part', color: 'var(--accent-yellow)',
+    fn: 'Temperature sensing element. Type J thermocouple generates mV signal proportional to oven temperature. Connects to temperature controller.',
+    symptoms: 'Low temperature reading, oven overheating, erratic temperature, temperature controller error',
+    testing: 'Measure mV output: 0°C=0mV, 100°C≈5.3mV, 300°C≈16.8mV. Compare reading to reference thermometer. Check TC junction for damage.',
+    reading: 'Type J at 300°C: ~16.8mV · 100°C: ~5.3mV · Short or open = Replace',
+    replacement: 'Allow oven to cool. Note TC polarity (Red=Negative for Type J). Remove old TC. Install P/N 33812-3. Recalibrate controller.',
+    pm: 'Check TC reading vs reference thermometer every 6 months. Inspect TC leads for damage. Check connections for oxidation.' },
+  { id: 'temp-controller', emoji: '🎛️', name: 'Temperature Controller', pn: 'P/N 47321', status: 'Brain of Oven', color: 'var(--accent-cyan)',
+    fn: 'Digital controller that reads thermocouple signal and controls gas valve on/off to maintain setpoint temperature. Has calibration offset function.',
+    symptoms: 'Wrong temperature display, oven not reaching setpoint, erratic temperature, error codes on display',
+    testing: 'Check display reads correct temp (compare to reference). Verify setpoint. Check output LED/relay. Access calibration menu if offset needed.',
+    reading: 'TC input mV matches temp · Output relay: 24VAC when calling · Offset: ±5°F acceptable',
+    replacement: 'Note all settings/parameters before replacement. Match input type (Type J). Reprogram setpoint and calibration. Full test cycle.',
+    pm: 'Clean display. Verify calibration every 6 months. Check setpoint after power failures. Inspect terminal connections.' },
+  { id: 'blower-motor', emoji: '💨', name: 'Blower Motor', pn: 'See motor nameplate', status: 'Critical System', color: 'var(--accent-blue)',
+    fn: 'High-speed motor that drives blower wheel to circulate hot air through oven cavity. Also proves airflow for gas safety interlock via air pressure switch.',
+    symptoms: 'No airflow, oven not heating (air switch won\'t close), motor tripping, unusual noise, reduced baking performance',
+    testing: 'Check supply voltage at motor terminals. Measure running current vs FLA. Test capacitor capacitance. Check winding resistance.',
+    reading: 'Voltage: 208-240VAC · RPM: 2300 · Cap: ±10% rated µF · Winding: 2-15Ω',
+    replacement: 'Isolate power. Label all wires. Remove motor. Match nameplate specs exactly. Check rotation direction. Test at full speed.',
+    pm: 'Clean motor and blower wheel quarterly. Check bearing noise. Measure capacitor annually. Check belt/coupling if applicable.' },
+  { id: 'conveyor-motor', emoji: '🔄', name: 'Conveyor Motor', pn: 'Variable speed', status: 'Drive System', color: 'var(--accent-green)',
+    fn: 'Drives conveyor belt at variable speed to control pizza baking time. Speed controlled by speed pot or VFD. Encoder feedback on NORA systems.',
+    symptoms: 'Belt not moving, belt too slow/fast, belt stopping intermittently, encoder error on NORA screen',
+    testing: 'Check motor voltage. Check NORA encoder values (Test: ~260, Low: ~30, High: ~380). Test speed pot resistance. Check VFD fault codes.',
+    reading: 'Encoder Test: ~260 · Encoder Low: ~30 · Encoder High: ~380 · Motor V: 120 or 240VAC',
+    replacement: 'Note speed setting before removal. Match motor specifications. Recalibrate speed settings after replacement. Test full range.',
+    pm: 'Lubricate drive chain monthly. Check belt tension. Clean encoder wheel. Inspect brushes if DC motor. Verify speed calibration.' },
+  { id: 'air-switch', emoji: '💫', name: 'Air Pressure Switch', pn: 'Safety interlock', status: 'Safety Device', color: 'var(--accent-red)',
+    fn: 'Proves blower is running and producing adequate airflow before allowing gas valve to open. Critical safety interlock — if switch doesn\'t close, no gas, no ignition.',
+    symptoms: 'No heating (blower running but no ignition), intermittent heating, ignition failure with blower running',
+    testing: 'Check tubing for blockage/damage. With blower running, measure pressure across switch. Test switch continuity with blower on/off.',
+    reading: 'Switch CLOSED with blower running · Switch OPEN with blower off · 24VAC through switch when closed',
+    replacement: 'Check correct differential pressure rating. Inspect tubing connections. Test after installation.',
+    pm: 'Check sensing tubing for blockage quarterly. Test switch operation. Ensure tubing not kinked or cracked.' },
+  { id: 'high-limit', emoji: '🛑', name: 'High Limit Switch', pn: 'Manual reset', status: 'Safety Critical', color: 'var(--accent-red)',
+    fn: 'Emergency safety device that cuts power to gas valve if oven temperature exceeds 650°F. Manual reset required after trip. NEVER bypass.',
+    symptoms: 'Oven shuts off at high temp, no heating after overtemp event, switch won\'t reset (still hot)',
+    testing: 'Measure continuity across switch contacts. Open = switch tripped or failed. Check temperature (allow cool before reset).',
+    reading: 'Trip Point: 650°F · Contacts: Closed=Normal, Open=Tripped · NEVER BYPASS',
+    replacement: 'Allow oven to cool fully. Match temperature rating exactly. Investigate WHY limit tripped before restart.',
+    pm: 'Test high limit switch operation annually. Do not bypass even temporarily. Check wiring and connections.' }
+];
+
+const pmData = {
+  daily: [
+    { text: 'Check oven temperature reads correctly at setpoint', priority: 'Critical', critical: true },
+    { text: 'Verify burner ignition and stable flame', priority: 'Critical', critical: true },
+    { text: 'Check conveyor belt running at correct speed', priority: 'Normal' },
+    { text: 'Visually inspect gas connections — no smell', priority: 'Critical', critical: true },
+    { text: 'Check blower motor running (listen for abnormal noise)', priority: 'Normal' },
+    { text: 'Wipe down oven exterior and conveyor entry/exit', priority: 'Normal' },
+  ],
+  weekly: [
+    { text: 'Clean flame sensor with fine emery cloth', priority: 'Critical', critical: true },
+    { text: 'Check and clean igniter spark rod — verify gap 1/8"', priority: 'Critical', critical: true },
+    { text: 'Clean conveyor belt — remove food debris', priority: 'Normal' },
+    { text: 'Inspect conveyor belt for wear or damage', priority: 'Normal' },
+    { text: 'Check all electrical connections for tightness', priority: 'High' },
+    { text: 'Inspect door seals for damage or gaps', priority: 'Normal' },
+    { text: 'Check ground/earth connections — main cause of flame failure', priority: 'Critical', critical: true },
+    { text: 'Lubricate conveyor drive chain', priority: 'Normal' },
+  ],
+  monthly: [
+    { text: 'Full gas pressure check with manometer (NG: 6-12" WC)', priority: 'Critical', critical: true },
+    { text: 'Measure flame current (µA) at ignition module', priority: 'Critical', critical: true },
+    { text: 'Test temperature calibration with reference thermometer', priority: 'High' },
+    { text: 'Clean blower wheel and motor fins', priority: 'High' },
+    { text: 'Test high limit safety switch operation', priority: 'Critical', critical: true },
+    { text: 'Check conveyor motor current (clamp ammeter)', priority: 'Normal' },
+    { text: 'Inspect thermocouple (P/N 33812-3) for damage', priority: 'High' },
+    { text: 'Test air pressure switch operation', priority: 'Normal' },
+    { text: 'Check blower motor capacitor', priority: 'High' },
+    { text: 'Full wiring harness inspection — insulation, tightness', priority: 'High' },
+  ],
+  quarterly: [
+    { text: 'Complete burner assembly cleaning', priority: 'Critical', critical: true },
+    { text: 'Gas valve coil resistance test (35-45Ω)', priority: 'Critical', critical: true },
+    { text: 'Replace Type J thermocouple if > 12 months old', priority: 'High' },
+    { text: 'Full blower motor inspection — bearings, windings', priority: 'High' },
+    { text: 'Conveyor belt tension adjustment', priority: 'Normal' },
+    { text: 'Full electrical panel inspection', priority: 'High' },
+    { text: 'Clean heat exchanger and burner chambers', priority: 'Normal' },
+    { text: 'Test all safety interlock functions', priority: 'Critical', critical: true },
+    { text: 'Full temperature profile calibration check', priority: 'High' },
+    { text: 'Check and lubricate all moving parts', priority: 'Normal' },
+    { text: 'Review breakdown history and update PM plan', priority: 'Normal' },
+    { text: 'Submit PM completion report to supervisor', priority: 'Normal' },
+  ]
+};
+
+const quizQuestions = [
+  { q: 'What is the MOST COMMON root cause of flame failures in PS540GS (60% of cases)?', options: ['Ignition module failure', 'Gas pressure low', 'Ground/Earth connection fault', 'Flame sensor damaged'], correct: 2 },
+  { q: 'What is the correct spark igniter gap for PS540GS?', options: ['1/4 inch', '1/16 inch', '1/8 inch (3.2mm)', '3/8 inch'], correct: 2 },
+  { q: 'What is the Part Number for the Ignition Module?', options: ['P/N 33812-3', 'P/N 50239', 'P/N 60679', 'P/N 47321'], correct: 1 },
+  { q: 'What is the minimum flame current reading at the ignition module sensor terminal?', options: ['0.1 µA', '0.5 µA', '1.0 µA', '2.0 µA'], correct: 1 },
+  { q: 'PS540GS Natural Gas incoming pressure specification is:', options: ['3-5" WC', '6-12" WC', '15-20" WC', '11.5-12" WC'], correct: 1 },
+  { q: 'The gas solenoid valve (P/N 60679) coil resistance should be approximately:', options: ['1-5 Ω', '10-20 Ω', '35-45 Ω', '100-150 Ω'], correct: 2 },
+  { q: 'On NORA screen, what is the normal HIGH speed encoder value approximately?', options: ['~30', '~130', '~260', '~380'], correct: 3 },
+  { q: 'High limit safety switch trips at what temperature?', options: ['450°F', '550°F', '600°F', '650°F'], correct: 3 },
+  { q: 'Which thermocouple type is used in PS540GS?', options: ['Type K', 'Type J', 'Type T', 'Type E'], correct: 1 },
+  { q: 'PS540GS maximum rated temperature is:', options: ['450°F', '500°F', '550°F', '650°F'], correct: 2 }
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let currentPM = 'daily';
+let pmState = { daily: [], weekly: [], monthly: [], quarterly: [] };
+let savedNotes = JSON.parse(localStorage.getItem('ps540_notes') || '[]');
+let savedCases = JSON.parse(localStorage.getItem('ps540_cases') || '[]');
+let quizIndex = 0, quizScore = 0;
+let treeStep = 0;
+
+// ═══════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const navItem = Array.from(document.querySelectorAll('.nav-item')).find(n => n.textContent.trim().toLowerCase().includes(id.replace('-', ' ').toLowerCase()));
+  if (navItem) navItem.classList.add('active');
+  closeSidebar();
+
+  if (id === 'parts') renderParts();
+  if (id === 'pm') { initPM(); showPM('daily', document.querySelector('.pm-tab')); }
+  if (id === 'notes') renderNotes();
+  if (id === 'quiz') startQuiz();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('visible');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════
+// AI TROUBLESHOOT
+// ═══════════════════════════════════════
+function selectSymptom(s) {
+  document.getElementById('symptom-input').value = s;
+  document.querySelectorAll('.symptom-chip').forEach(c => c.classList.remove('selected'));
+  event.target.classList.add('selected');
+}
+
+function diagnose() {
+  const input = document.getElementById('symptom-input').value.trim().toLowerCase();
+  if (!input) return;
+
+  let match = null;
+  for (const key of Object.keys(troubleshootDB)) {
+    if (input.includes(key.split(' ')[0]) || input.includes(key.split(' ')[1] || '') || key.includes(input.split(' ')[0])) {
+      match = troubleshootDB[key]; break;
+    }
+  }
+  if (!match) {
+    match = troubleshootDB['burner not igniting'];
+    match = { ...match, title: `"${input}" — General Diagnosis`, severity: 'MEDIUM' };
+  }
+
+  const rc = document.getElementById('result-card');
+  rc.classList.add('visible');
+  document.getElementById('result-issue-title').textContent = '⚡ Issue: ' + match.title;
+  const sev = document.getElementById('result-severity');
+  sev.textContent = match.severity + ' PRIORITY';
+  sev.className = 'badge ' + (match.severity === 'CRITICAL' ? 'badge-red' : match.severity === 'HIGH' ? 'badge-red' : match.severity === 'MEDIUM' ? 'badge-orange' : 'badge-yellow');
+  document.getElementById('result-safety').textContent = match.safety;
+
+  const causesEl = document.getElementById('result-causes');
+  causesEl.innerHTML = match.causes.map(c => `
+    <div class="cause-item">
+      <div class="cause-rank ${c.rank <= 3 ? 'rank-' + c.rank : 'rank-n'}">#${c.rank}</div>
+      <div><div class="cause-text">${c.text}</div><div class="cause-prob">${c.prob}</div></div>
+    </div>`).join('');
+
+  const toolsEl = document.getElementById('result-tools');
+  toolsEl.innerHTML = match.tools.map(t => `<span class="badge badge-blue">${t}</span>`).join('');
+
+  const stepsEl = document.getElementById('result-steps');
+  stepsEl.innerHTML = match.steps.map(s => `
+    <div class="step-item">
+      <div class="step-num">${s.num}</div>
+      <div class="step-content">
+        <div class="step-title">${s.title}</div>
+        <div class="step-desc">${s.desc}</div>
+        ${s.reading ? `<div class="reading-box">${Object.entries(s.reading).map(([k,v]) => `<span class="reading-item"><span class="reading-key">${k}:</span> ${v}</span>`).join('')}</div>` : ''}
+      </div>
+    </div>`).join('');
+
+  const refsEl = document.getElementById('result-refs');
+  refsEl.innerHTML = Object.entries(match.refs).map(([k,v]) => `<span class="reading-item"><span class="reading-key">${k}:</span> ${v}</span>`).join('');
+
+  rc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  saveCaseToStorage(match, input);
+}
+
+function clearResult() {
+  document.getElementById('result-card').classList.remove('visible');
+  document.getElementById('symptom-input').value = '';
+  document.querySelectorAll('.symptom-chip').forEach(c => c.classList.remove('selected'));
+}
+
+function saveCaseToStorage(match, input) {
+  const caseItem = { issue: input, title: match.title, date: new Date().toLocaleString(), severity: match.severity };
+  savedCases.unshift(caseItem);
+  if (savedCases.length > 20) savedCases.pop();
+  localStorage.setItem('ps540_cases', JSON.stringify(savedCases));
+}
+
+function saveCase() { showNotification('✅ Case saved to history!'); }
+function addNote() { showPage('notes'); }
+function exportPDF() { window.print(); }
+
+// ═══════════════════════════════════════
+// DECISION TREE
+// ═══════════════════════════════════════
+const trees = {
+  noHeat: [
+    { q: 'Is the blower motor running?', yes: 1, no: 'action:Check blower motor — verify power at motor terminals (208-240VAC). Test capacitor, check overload. Blower MUST run first.' },
+    { q: 'Is there a visible spark at the burner?', yes: 2, no: 'action:No spark detected. Check ground connection first (60% of cases). Then check ignition module (P/N 50239) input 24VAC. Check spark gap = 1/8".' },
+    { q: 'Do you smell gas at the burner?', yes: 'action:Gas present, spark present, but no ignition. Check flame sensor position and cleanliness. Clean sensor rod with emery cloth. Check spark gap. Verify gas pressure.', no: 3 },
+    { q: 'Is 24VAC present at gas valve coil terminals?', yes: 'action:24VAC present but valve not opening. Test valve coil resistance 35-45Ω. OL reading = coil failure. Replace gas valve (P/N 60679).', no: 'action:No 24VAC at valve. Trace back in control circuit — check high limit switch, air pressure switch, thermostat output. Safety switch may be open.' }
+  ],
+  ignitionFail: [
+    { q: 'Does the ignition module click/attempt to start?', yes: 1, no: 'action:No attempt at all. Check 24VAC supply to module (P/N 50239). Check thermostat calling for heat. Check all safety switches in series.' },
+    { q: 'Is there a visible spark at the igniter?', yes: 2, no: 'action:Module attempting but no spark. Check ground connection (MOST COMMON — 60% of cases). Check spark gap = 1/8". Check igniter rod for cracks.' },
+    { q: 'Does flame establish then immediately die?', yes: 'action:Flame established then drops out. Clean flame sensor rod with fine emery cloth. Measure µA at module (must be >0.5µA). Check ground connection — critical for flame signal.', no: 'action:Gas not reaching burner. Check gas valve operation (24VAC, coil 35-45Ω). Check gas pressure (NG: 6-12" WC). Check air pressure switch closed.' }
+  ],
+  conveyorFail: [
+    { q: 'Does the conveyor motor hum but belt not move?', yes: 'action:Motor energized but belt jammed. Power off immediately. Inspect belt for food jam, debris, or damage. Clear jam. Inspect belt condition. Check drive chain and sprocket.', no: 1 },
+    { q: 'Is there voltage at conveyor motor terminals?', yes: 'action:Voltage present, motor completely dead. Motor winding failure. Disconnect power. Test winding resistance. Check for seized bearing. Replace motor if windings open/shorted.', no: 2 },
+    { q: 'Check NORA screen — is encoder showing zero?', yes: 'action:Encoder fault detected. Check encoder sensor and target wheel. Clean encoder. Check encoder wiring. Replace encoder if damaged.', no: 'action:No voltage and encoder ok. Check speed control output. Test speed pot (potentiometer) resistance. Check drive board/VFD fault codes if equipped.' }
+  ],
+  tempLow: [
+    { q: 'Is the burner flame visible and running?', yes: 1, no: 'action:No flame at all. Go to Ignition Failure diagnosis first. No flame = no heat.' },
+    { q: 'Does the controller display match actual oven temperature?', yes: 2, no: 'action:Controller display is wrong. Test thermocouple (P/N 33812-3) mV output. Type J at 300°C should read ~16.8mV. Low reading = replace thermocouple.' },
+    { q: 'Is gas pressure at correct specification?', yes: 'action:Gas pressure ok, flame running, controller accurate, but low temp. Check blower speed (2300 RPM nominal). Inspect burner ports for blockage. Check door seals for heat loss.', no: 'action:Low gas pressure confirmed. Check incoming supply pressure. Adjust regulator. Check for blockage in supply line. Contact gas supplier if supply issue.' }
+  ],
+  blowerFail: [
+    { q: 'Does the motor attempt to start (hum)?', yes: 1, no: 'action:No start attempt at all. Check supply voltage at motor terminals (208-240VAC). Check contactor/relay operation. Check overload reset.' },
+    { q: 'Does motor start but immediately trip?', yes: 'action:Motor starts then trips. Allow to cool 15 min. Check running current vs FLA nameplate. Test capacitor (±10% rated µF). Check for seized bearing — rotate by hand when off.', no: 2 },
+    { q: 'Is motor running but producing low airflow?', yes: 'action:Motor running but low airflow. Clean blower wheel thoroughly — grease buildup common. Check blower wheel for damage. Inspect ducting for obstruction. Check rotation direction.', no: 'action:Motor hums but won\'t spin. Likely weak or dead start capacitor. Test capacitor capacitance. Replace if outside ±10% of rating.' }
+  ]
+};
+
+let currentTree = null, treePath = [];
+
+function startTree(type) {
+  currentTree = trees[type];
+  treePath = [0];
+  document.getElementById('reset-tree-btn').style.display = 'inline-flex';
+  renderTree();
+}
+
+function renderTree() {
+  const node = currentTree[treePath[treePath.length - 1]];
+  const container = document.getElementById('tree-container');
+  container.innerHTML = `
+    <div style="margin-bottom:12px;font-size:10px;font-family:'Share Tech Mono',monospace;color:var(--text-muted);">STEP ${treePath.length} OF DIAGNOSIS</div>
+    <div class="tree-question"><span class="q-icon">❓</span><span>${node.q}</span></div>
+    <div class="tree-btns">
+      <button class="tree-btn tree-yes" onclick="treeAnswer('yes')">✅ YES</button>
+      <button class="tree-btn tree-no" onclick="treeAnswer('no')">❌ NO</button>
+    </div>`;
+}
+
+function treeAnswer(ans) {
+  const node = currentTree[treePath[treePath.length - 1]];
+  const next = node[ans];
+  if (typeof next === 'string' && next.startsWith('action:')) {
+    document.getElementById('tree-container').innerHTML += `
+      <div class="tree-result visible" style="margin-top:14px;">
+        <div style="font-size:11px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:8px;">🔧 DIAGNOSIS & ACTION</div>
+        <div style="font-size:14px;line-height:1.7;">${next.replace('action:', '')}</div>
+      </div>`;
+  } else if (typeof next === 'number') {
+    treePath.push(next);
+    renderTree();
+    const prev = document.getElementById('tree-container');
+    const div = document.createElement('div');
+    div.style = 'padding:8px 0 0;font-size:12px;color:var(--accent-green);';
+    div.textContent = ans === 'yes' ? '✅ Yes → Continue diagnosis...' : '❌ No → Continue diagnosis...';
+    prev.insertBefore(div, prev.lastChild);
+    renderTree();
+  }
+}
+
+function resetTree() {
+  document.getElementById('tree-container').innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:40px 0;font-size:14px;">👆 Select an issue category above to start the diagnosis flow</div>';
+  document.getElementById('reset-tree-btn').style.display = 'none';
+}
+
+// ═══════════════════════════════════════
+// PARTS
+// ═══════════════════════════════════════
+function renderParts() {
+  const grid = document.getElementById('parts-grid');
+  grid.innerHTML = partsData.map(p => `
+    <div class="part-card" onclick="showPart('${p.id}')">
+      <div class="part-emoji">${p.emoji}</div>
+      <div class="part-name">${p.name}</div>
+      <div style="font-size:10px;font-family:'Share Tech Mono',monospace;color:var(--text-muted);margin-bottom:6px;">${p.pn}</div>
+      <div class="part-status"><span class="badge badge-orange">${p.status}</span></div>
+    </div>`).join('');
+}
+
+function showPart(id) {
+  const p = partsData.find(x => x.id === id);
+  if (!p) return;
+  const detail = document.getElementById('part-detail');
+  detail.className = 'part-detail visible';
+  detail.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+      <span style="font-size:36px;">${p.emoji}</span>
+      <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;">${p.name}</div>
+      <div style="font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--text-muted);">${p.pn}</div></div>
+      <div style="margin-left:auto;"><span class="badge badge-orange">${p.status}</span></div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-item"><div class="detail-label">🔧 Function</div><div class="detail-value">${p.fn}</div></div>
+      <div class="detail-item"><div class="detail-label">⚠️ Failure Symptoms</div><div class="detail-value">${p.symptoms}</div></div>
+      <div class="detail-item"><div class="detail-label">🔬 Testing Method</div><div class="detail-value">${p.testing}</div></div>
+      <div class="detail-item"><div class="detail-label">📏 Multimeter Reading</div><div class="detail-value" style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--accent-cyan);">${p.reading}</div></div>
+      <div class="detail-item"><div class="detail-label">🔄 Replacement Method</div><div class="detail-value">${p.replacement}</div></div>
+      <div class="detail-item"><div class="detail-label">📋 Preventive Maintenance</div><div class="detail-value">${p.pm}</div></div>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-primary btn-sm" onclick="selectSymptom('${p.name.toLowerCase()} issue');showPage('troubleshoot')">🔧 Troubleshoot This Part</button>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('part-detail').className='part-detail'">✕ Close</button>
+    </div>`;
+  detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ═══════════════════════════════════════
+// PM
+// ═══════════════════════════════════════
+function initPM() {
+  Object.keys(pmData).forEach(freq => {
+    if (!pmState[freq] || pmState[freq].length !== pmData[freq].length) {
+      pmState[freq] = pmData[freq].map(() => false);
+    }
+  });
+}
+
+function showPM(freq, el) {
+  currentPM = freq;
+  document.querySelectorAll('.pm-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const items = pmData[freq];
+  const state = pmState[freq];
+  const content = document.getElementById('pm-content');
+  content.innerHTML = items.map((item, i) => `
+    <div class="pm-item ${state[i] ? 'done' : ''}" onclick="togglePM('${freq}',${i})">
+      <div class="pm-checkbox">${state[i] ? '✓' : ''}</div>
+      <div class="pm-text">${item.text}</div>
+      <div class="pm-priority">
+        <span class="badge ${item.critical ? 'badge-red' : item.priority === 'High' ? 'badge-orange' : 'badge-blue'}">${item.priority || 'Normal'}</span>
+      </div>
+    </div>`).join('');
+  updatePMProgress(freq);
+}
+
+function togglePM(freq, i) {
+  pmState[freq][i] = !pmState[freq][i];
+  showPM(freq, null);
+}
+
+function updatePMProgress(freq) {
+  const total = pmData[freq].length;
+  const done = pmState[freq].filter(Boolean).length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('pm-progress-fill').style.width = pct + '%';
+  document.getElementById('pm-progress-text').textContent = `${done} / ${total} tasks completed (${pct}%)`;
+}
+
+function exportPMReport() {
+  const freq = currentPM;
+  const items = pmData[freq];
+  const state = pmState[freq];
+  const done = state.filter(Boolean).length;
+  let report = `PS540GS PM REPORT — ${freq.toUpperCase()} CHECKLIST\nDate: ${new Date().toLocaleDateString()}\nCompleted: ${done}/${items.length}\n\n`;
+  items.forEach((item, i) => { report += `[${state[i] ? '✓' : '✗'}] ${item.text}\n`; });
+  const blob = new Blob([report], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `PM_Report_${freq}_${Date.now()}.txt`;
+  a.click();
+}
+
+// ═══════════════════════════════════════
+// NOTES
+// ═══════════════════════════════════════
+function saveNote() {
+  const text = document.getElementById('note-text').value.trim();
+  const store = document.getElementById('note-store').value.trim();
+  const type = document.getElementById('note-type').value;
+  const equip = document.getElementById('note-equip').value.trim();
+  if (!text) return;
+  const note = { text, store: store || 'General', type, equip: equip || 'PS540GS', date: new Date().toLocaleString() };
+  savedNotes.unshift(note);
+  localStorage.setItem('ps540_notes', JSON.stringify(savedNotes));
+  clearNote();
+  renderNotes();
+  showNotification('✅ Note saved!');
+}
+
+function clearNote() {
+  document.getElementById('note-text').value = '';
+  document.getElementById('note-store').value = '';
+  document.getElementById('note-equip').value = '';
+}
+
+function renderNotes() {
+  const list = document.getElementById('notes-list');
+  if (!savedNotes.length) { list.innerHTML = '<div style="color:var(--text-muted);font-size:13px;text-align:center;padding:24px;">No notes saved yet. Add your first repair note above.</div>'; return; }
+  list.innerHTML = savedNotes.map((n, i) => `
+    <div class="saved-note">
+      <div class="sn-meta">${n.date} · ${n.store} · ${n.type} · ${n.equip}
+        <button onclick="deleteNote(${i})" style="margin-left:8px;background:none;border:none;color:var(--accent-red);cursor:pointer;font-size:11px;">🗑️ Delete</button>
+      </div>
+      <div class="sn-text">${n.text}</div>
+    </div>`).join('');
+}
+
+function deleteNote(i) {
+  savedNotes.splice(i, 1);
+  localStorage.setItem('ps540_notes', JSON.stringify(savedNotes));
+  renderNotes();
+}
+
+// ═══════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════
+function startQuiz() {
+  quizIndex = 0; quizScore = 0;
+  document.getElementById('quiz-score').classList.remove('visible');
+  renderQuizQ();
+}
+
+function renderQuizQ() {
+  const container = document.getElementById('quiz-container');
+  if (quizIndex >= quizQuestions.length) { showQuizResult(); return; }
+  const q = quizQuestions[quizIndex];
+  container.innerHTML = `
+    <div class="quiz-container" style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px;">
+      <div style="font-size:10px;font-family:'Share Tech Mono',monospace;color:var(--text-muted);margin-bottom:12px;">QUESTION ${quizIndex+1} OF ${quizQuestions.length}</div>
+      <div style="height:4px;background:var(--bg-panel);border-radius:2px;overflow:hidden;margin-bottom:20px;"><div style="height:100%;background:linear-gradient(90deg,var(--accent-blue),var(--accent-cyan));width:${((quizIndex+1)/quizQuestions.length*100)}%;border-radius:2px;transition:width 0.3s;"></div></div>
+      <div class="quiz-q">${q.q}</div>
+      <div class="quiz-options">${q.options.map((opt, i) => `<div class="quiz-opt" onclick="answerQuiz(${i})">${opt}</div>`).join('')}</div>
+    </div>`;
+}
+
+function answerQuiz(chosen) {
+  const q = quizQuestions[quizIndex];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((opt, i) => {
+    if (i === q.correct) opt.classList.add('correct');
+    else if (i === chosen) opt.classList.add('wrong');
+    opt.style.pointerEvents = 'none';
+  });
+  if (chosen === q.correct) quizScore++;
+  setTimeout(() => { quizIndex++; renderQuizQ(); }, 1200);
+}
+
+function showQuizResult() {
+  document.getElementById('quiz-container').innerHTML = '';
+  const scoreEl = document.getElementById('quiz-score');
+  scoreEl.classList.add('visible');
+  document.getElementById('score-num').textContent = `${quizScore}/${quizQuestions.length}`;
+  const pct = Math.round(quizScore / quizQuestions.length * 100);
+  document.getElementById('score-msg').textContent = pct >= 80 ? '🏆 Excellent! You are a PS540GS expert!' : pct >= 60 ? '👍 Good! Review weak areas.' : '📚 Keep studying — read the handbook again!';
+}
+
+// ═══════════════════════════════════════
+// LEARNING LESSONS
+// ═══════════════════════════════════════
+const lessonContent = {
+  ignition: { title: 'Ignition System Basics', content: `
+    <div style="line-height:1.8;font-size:13px;color:var(--text-secondary);">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:12px;">How PS540GS Ignition Works</div>
+      <p><strong style="color:var(--accent-cyan)">1. Sequence of Operation:</strong><br>
+      Oven calls for heat → Blower starts → Air pressure switch closes → 24VAC energizes ignition module (P/N 50239) → Module generates HV spark → Spark ignites gas → Flame sensor detects µA → Gas valve stays open.</p>
+      <br><p><strong style="color:var(--accent-orange)">2. Trial for Ignition:</strong><br>
+      Module tries to ignite for ~7-10 seconds. If no flame signal → gas valve closes → lockout. Must manually reset after lockout.</p>
+      <br><p><strong style="color:var(--accent-red)">3. Why Flame Failures Happen:</strong><br>
+      60% cases = ground fault. The flame sensor works by allowing a tiny current (µA) to flow through the flame to ground. Bad ground = no µA signal = flame failure even with good flame!</p>
+      <br><div style="background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.3);border-radius:8px;padding:12px;">
+        <strong style="color:var(--accent-green)">🔑 KEY TAKEAWAY:</strong><br>
+        Always check ground FIRST. It costs zero rupees to clean a ground connection. An ignition module costs ₹2000-5000.
+      </div>
+    </div>`},
+  gas: { title: 'Gas System Mastery', content: `
+    <div style="line-height:1.8;font-size:13px;color:var(--text-secondary);">
+      <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;color:var(--text-primary);margin-bottom:12px;">PS540GS Gas System Deep Dive</div>
+      <p><strong style="color:var(--accent-cyan)">Gas Pressure Specs:</strong><br>
+      Natural Gas: 6–12" WC incoming / Manifold: 3.5" WC<br>
+      LPG/Propane: 11.5–12" WC incoming / Manifold: 10" WC</p>
+      <br><p><strong style="color:var(--accent-orange)">Gas Valve (P/N 60679):</strong><br>
+      24VAC coil. Test coil: 35-45Ω normal. OL = coil burned. With 24VAC energized, valve should open and you should hear/smell gas at burner.</p>
+      <br><p><strong style="color:var(--accent-yellow)">Safety:</strong><br>
+      Always use soap solution (never open flame!) to check for gas leaks. Shut gas supply before any valve work. Ventilate before working.</p>
+    </div>`}
+};
+
+function openLesson(id) {
+  const lesson = lessonContent[id] || { title: 'Lesson Coming Soon', content: '<p style="color:var(--text-muted)">This lesson is being prepared. Check back soon!</p>' };
+  document.getElementById('modal-title').textContent = lesson.title;
+  document.getElementById('modal-content').innerHTML = lesson.content;
+  document.getElementById('modal-backdrop').classList.add('visible');
+}
+
+function closeModal() { document.getElementById('modal-backdrop').classList.remove('visible'); }
+
+// ═══════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════
+function globalSearch(q) {
+  if (!q || q.length < 2) return;
+  const query = q.toLowerCase();
+  // Search in troubleshootDB
+  for (const key of Object.keys(troubleshootDB)) {
+    if (key.includes(query.split(' ')[0])) {
+      // highlight
+    }
+  }
+}
+
+function voiceSearch() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    showNotification('⚠️ Voice search not supported in this browser'); return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const sr = new SR();
+  sr.lang = 'en-IN';
+  sr.onresult = (e) => {
+    const t = e.results[0][0].transcript;
+    document.getElementById('global-search').value = t;
+    document.getElementById('symptom-input').value = t;
+    showPage('troubleshoot');
+    setTimeout(diagnose, 300);
+  };
+  sr.onerror = () => showNotification('Voice search error. Try again.');
+  sr.start();
+  showNotification('🎤 Listening... Speak your symptom');
+}
+
+// ═══════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════
+let lightMode = false;
+function toggleTheme() {
+  lightMode = !lightMode;
+  document.documentElement.style.setProperty('--bg-deep', lightMode ? '#f0f2f5' : '#0a0c10');
+  document.documentElement.style.setProperty('--bg-panel', lightMode ? '#e2e5ea' : '#111318');
+  document.documentElement.style.setProperty('--bg-card', lightMode ? '#ffffff' : '#161920');
+  document.documentElement.style.setProperty('--bg-hover', lightMode ? '#e8ecf2' : '#1c2028');
+  document.documentElement.style.setProperty('--border', lightMode ? '#d0d4dc' : '#252a35');
+  document.documentElement.style.setProperty('--text-primary', lightMode ? '#111318' : '#e8ecf4');
+  document.documentElement.style.setProperty('--text-secondary', lightMode ? '#3a4258' : '#8a93a8');
+  document.documentElement.style.setProperty('--text-muted', lightMode ? '#7a839a' : '#4a5268');
+  document.getElementById('theme-toggle').textContent = lightMode ? '🌙 Dark' : '☀️ Light';
+}
+
+// ═══════════════════════════════════════
+// NOTIFICATION
+// ═══════════════════════════════════════
+function showNotification(msg) {
+  const el = document.createElement('div');
+  el.style = 'position:fixed;bottom:20px;right:20px;background:var(--bg-card);border:1px solid var(--accent-blue);border-radius:10px;padding:12px 18px;font-size:13px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,0.3);animation:fadeIn 0.3s;';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  initPM();
+  renderNotes();
+  renderParts();
+  renderErrorCodes();
+  showPage('dashboard');
+  initAIChat();
+  setTimeout(() => {
+    document.querySelectorAll('.chart-bar-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0%';
+      setTimeout(() => { el.style.width = w; }, 100);
+    });
+  }, 300);
+});
+</script>
+
+<!-- ══════════════════════════════════════════════════════════
+     AI CHAT PAGE  +  ERROR CODES PAGE  +  SPECS PAGE
+     Injected after main script to keep structure clean
+═══════════════════════════════════════════════════════════ -->
+<style>
+/* ── AI CHAT ── */
+.chat-wrap {
+  display: flex; flex-direction: column;
+  height: calc(100vh - 56px - 40px);
+  min-height: 500px;
+}
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px 12px 0 0;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.msg { display: flex; gap: 10px; max-width: 88%; animation: fadeIn 0.3s; }
+.msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.msg-avatar {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.msg.bot .msg-avatar { background: linear-gradient(135deg,var(--accent-blue),#0055cc); }
+.msg.user .msg-avatar { background: linear-gradient(135deg,var(--accent-orange),#cc4400); }
+.msg-bubble {
+  background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 12px; padding: 11px 14px;
+  font-size: 13px; line-height: 1.7; color: var(--text-primary);
+}
+.msg.user .msg-bubble { background: rgba(30,144,255,0.12); border-color: rgba(30,144,255,0.3); }
+.msg-bubble strong { color: var(--accent-cyan); }
+.msg-bubble .ref-badge { display: inline-block; background: rgba(255,107,26,0.15); color: var(--accent-orange); padding: 1px 6px; border-radius: 4px; font-size: 10px; font-family:'Share Tech Mono',monospace; margin: 0 2px; }
+.typing-indicator { display: flex; align-items: center; gap: 4px; padding: 8px 0; }
+.typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-blue); animation: typingBounce 1s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.30s; }
+@keyframes typingBounce { 0%,80%,100% { transform:translateY(0); } 40% { transform:translateY(-6px); } }
+.chat-input-row {
+  display: flex; gap: 8px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-top: none; border-radius: 0 0 12px 12px;
+  padding: 12px;
+}
+.chat-input {
+  flex: 1; background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; color: var(--text-primary);
+  font-family: 'Exo 2', sans-serif; font-size: 13px; outline: none;
+  transition: border-color 0.2s; resize: none;
+}
+.chat-input:focus { border-color: var(--accent-blue); }
+.chat-quick-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.chat-quick { padding: 6px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; font-size: 11px; cursor: pointer; color: var(--text-secondary); transition: all 0.15s; white-space: nowrap; }
+.chat-quick:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+/* ── ERROR CODES ── */
+.error-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.error-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; border-left: 3px solid var(--accent-red); transition: all 0.2s; cursor: pointer; }
+.error-card:hover { border-color: var(--accent-orange); transform: translateY(-1px); }
+.error-code { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--accent-red); font-weight: 700; margin-bottom: 4px; }
+.error-desc { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.error-cause { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+.error-fix { font-size: 11px; color: var(--accent-green); margin-top: 6px; }
+
+/* ── API KEY INPUT ── */
+.api-key-section {
+  background: rgba(30,144,255,0.06); border: 1px solid rgba(30,144,255,0.2);
+  border-radius: 10px; padding: 14px; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.api-key-input {
+  flex: 1; min-width: 200px; background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 7px; padding: 8px 12px; color: var(--text-primary);
+  font-family: 'Share Tech Mono', monospace; font-size: 12px; outline: none;
+}
+.api-key-input:focus { border-color: var(--accent-blue); }
+.api-status { font-size: 11px; font-family: 'Share Tech Mono', monospace; }
+</style>
+
+<script>
+// ══════════════════════════════════════
+//  AI CHAT — Anthropic API Integration
+// ══════════════════════════════════════
+let chatHistory = [];
+let apiKey = localStorage.getItem('ps540_apikey') || '';
+
+const AI_SYSTEM_PROMPT = `You are TechMaster AI — an expert Senior Maintenance Engineer specializing exclusively in the Middleby Marshall PS540GS Gas Conveyor Oven.
+
+Your knowledge base includes:
+- BTU: 110,000/hr | Max Temp: 550°F | High Limit: 650°F | Blower: 2300 RPM
+- Gas Pressure NG: 6–12" WC | LPG: 11.5–12" WC | Manifold NG: 3.5" WC | LPG: 10" WC  
+- Ignition Module P/N: 50239 | Gas Valve P/N: 60679 | Thermocouple P/N: 33812-3 (Type J) | Temperature Controller P/N: 47321
+- Flame current minimum: >0.5µA | Spark gap: 1/8" (3.2mm)
+- Gas valve coil: 35–45 Ω | Coil voltage: 24 VAC
+- CRITICAL FACT: 60% of all flame failures are caused by poor ground/earth connections
+- Conveyor encoder values on NORA screen: Test ~260 | Normal Low ~30 | Normal High ~380
+
+Your response style:
+- Be direct and field-practical — like a senior technician talking to a junior
+- Always give numbered steps for troubleshooting
+- Always mention safety precautions first for gas/electrical work
+- Mention specific P/N, voltage, and resistance values when relevant
+- Keep responses concise but complete — the user is in the field
+- Use ✅ ⚠️ 🔧 🔥 emojis to highlight key points
+- When relevant, remind about the ground connection being the #1 cause of flame failure`;
+
+function initAIChat() {
+  // Inject AI Chat page into main if not present
+  if (!document.getElementById('page-aichat')) {
+    const main = document.querySelector('.main');
+    
+    // AI CHAT PAGE
+    const chatPage = document.createElement('div');
+    chatPage.className = 'page';
+    chatPage.id = 'page-aichat';
+    chatPage.innerHTML = `
+      <div class="section-header">
+        <div>
+          <div class="section-title">AI <span>Chat</span> Assistant</div>
+          <div class="section-sub">// POWERED BY CLAUDE · PS540GS SPECIALIST</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span class="badge badge-blue pulse" id="ai-status-badge">● AI Ready</span>
+          <button class="btn btn-outline btn-sm" onclick="clearChat()">🗑️ Clear Chat</button>
+        </div>
+      </div>
+
+      <div class="api-key-section">
+        <span style="font-size:13px;font-weight:600;white-space:nowrap;">🔑 API Key:</span>
+        <input type="password" class="api-key-input" id="api-key-input" placeholder="sk-ant-api03-..." value="${apiKey}">
+        <button class="btn btn-primary btn-sm" onclick="saveApiKey()">Save Key</button>
+        <div class="api-status" id="api-key-status" style="color:${apiKey ? 'var(--accent-green)' : 'var(--text-muted)'};">${apiKey ? '✅ Key saved' : '⚠️ Enter your Anthropic API key'}</div>
+      </div>
+
+      <div class="chat-quick-btns">
+        <div class="chat-quick" onclick="quickChat('How do I diagnose flame failure?')">🔥 Flame Failure</div>
+        <div class="chat-quick" onclick="quickChat('Burner not igniting — step by step?')">⚡ Burner Ignition</div>
+        <div class="chat-quick" onclick="quickChat('What causes low temperature?')">🌡️ Low Temp</div>
+        <div class="chat-quick" onclick="quickChat('Blower motor tripping — how to diagnose?')">💨 Blower Trip</div>
+        <div class="chat-quick" onclick="quickChat('How to test gas valve P/N 60679?')">🔵 Gas Valve Test</div>
+        <div class="chat-quick" onclick="quickChat('What are conveyor encoder values on NORA screen?')">🔄 Conveyor NORA</div>
+        <div class="chat-quick" onclick="quickChat('How to clean flame sensor properly?')">🔬 Flame Sensor</div>
+        <div class="chat-quick" onclick="quickChat('PS540GS full PM checklist for monthly PM?')">📋 Monthly PM</div>
+      </div>
+
+      <div class="chat-wrap">
+        <div class="chat-messages" id="chat-messages">
+          <div class="msg bot">
+            <div class="msg-avatar">🤖</div>
+            <div class="msg-bubble">
+              <strong>TechMaster AI ready!</strong> Main aapka PS540GS specialist hoon. Koi bhi breakdown, fault, ya technical question puchho — I'll give you field-ready answers.<br><br>
+              ⚠️ <strong>Quick Reminder:</strong> 60% of flame failures = ground connection problem. Always check earth first!<br><br>
+              Type your question below or tap a quick button above. 👆
+            </div>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="chat-input" rows="2" placeholder="Ask anything about PS540GS... e.g. 'Burner lights but shuts off after 3 seconds, what to check?'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <button class="btn btn-primary" onclick="sendChat()" style="height:100%;min-width:64px;">Send</button>
+          </div>
+        </div>
+      </div>`;
+    main.appendChild(chatPage);
+
+    // ERROR CODES PAGE
+    const errPage = document.createElement('div');
+    errPage.className = 'page';
+    errPage.id = 'page-errorcodes';
+    errPage.innerHTML = `
+      <div class="section-header">
+        <div>
+          <div class="section-title">Error <span>Codes</span> & Fault Reference</div>
+          <div class="section-sub">// PS540GS FAULT CONDITIONS · CAUSES · FIXES</div>
+        </div>
+        <input type="text" id="error-search" style="background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;color:var(--text-primary);font-family:'Exo 2',sans-serif;font-size:12px;outline:none;width:200px;" placeholder="🔍 Search error..." oninput="filterErrors(this.value)">
+      </div>
+      <div class="error-grid" id="error-grid"></div>`;
+    main.appendChild(errPage);
+
+    // SPECS PAGE
+    const specsPage = document.createElement('div');
+    specsPage.className = 'page';
+    specsPage.id = 'page-specs';
+    specsPage.innerHTML = `
+      <div class="section-header">
+        <div>
+          <div class="section-title">Full <span>Specifications</span></div>
+          <div class="section-sub">// MIDDLEBY MARSHALL PS540GS · COMPLETE TECH REFERENCE</div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="exportSpecs()">📄 Export Specs</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔥 Heating & Temperature</div>
+          <table class="spec-table">
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Total BTU Input</td><td>110,000 BTU/hr</td></tr>
+            <tr><td>Maximum Operating Temp</td><td>550°F (288°C)</td></tr>
+            <tr><td>High Limit Safety Trip</td><td>650°F (343°C)</td></tr>
+            <tr><td>Temperature Controller</td><td>Digital · P/N 47321</td></tr>
+            <tr><td>Thermocouple Type</td><td>Type J · P/N 33812-3</td></tr>
+            <tr><td>Temp Calibration Tolerance</td><td>±5°F acceptable</td></tr>
+            <tr><td>Bake Chamber Zones</td><td>Top + Bottom heat</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔵 Gas System</div>
+          <table class="spec-table">
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Natural Gas Supply Pressure</td><td>6 – 12" WC</td></tr>
+            <tr><td>LPG/Propane Supply Pressure</td><td>11.5 – 12" WC</td></tr>
+            <tr><td>Manifold Pressure (NG)</td><td>3.5" WC</td></tr>
+            <tr><td>Manifold Pressure (LPG)</td><td>10" WC</td></tr>
+            <tr><td>Gas Solenoid Valve P/N</td><td>60679</td></tr>
+            <tr><td>Valve Coil Resistance</td><td>35 – 45 Ω</td></tr>
+            <tr><td>Valve Coil Voltage</td><td>24 VAC</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">⚡ Ignition System</div>
+          <table class="spec-table">
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Ignition Module P/N</td><td>50239</td></tr>
+            <tr><td>Module Supply Voltage</td><td>24 VAC</td></tr>
+            <tr><td>Spark Igniter Gap</td><td>1/8" (3.2 mm)</td></tr>
+            <tr><td>Minimum Flame Current</td><td>>0.5 µA</td></tr>
+            <tr><td>Trial for Ignition Time</td><td>~7 – 10 seconds</td></tr>
+            <tr><td>Lockout After Failed Attempts</td><td>Manual reset required</td></tr>
+            <tr><td>#1 Flame Failure Cause</td><td>Ground connection fault (60%)</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">💨 Blower & Conveyor</div>
+          <table class="spec-table">
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Blower Speed</td><td>2300 RPM nominal</td></tr>
+            <tr><td>Blower Supply Voltage</td><td>208 – 240 VAC</td></tr>
+            <tr><td>Air Pressure Switch</td><td>Proves airflow before ignition</td></tr>
+            <tr><td>Conveyor Speed Range</td><td>2 – 7 min/cycle</td></tr>
+            <tr><td>NORA Encoder (Test Mode)</td><td>~260</td></tr>
+            <tr><td>NORA Encoder (Normal Low)</td><td>~30</td></tr>
+            <tr><td>NORA Encoder (Normal High)</td><td>~380</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔌 Electrical</div>
+          <table class="spec-table">
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Main Supply</td><td>208 – 240 VAC, 50/60 Hz</td></tr>
+            <tr><td>Control Transformer Output</td><td>24 VAC</td></tr>
+            <tr><td>TC Thermocouple Signal</td><td>0 – 50 mV DC (Type J)</td></tr>
+            <tr><td>Type J at 100°C</td><td>~5.3 mV</td></tr>
+            <tr><td>Type J at 300°C</td><td>~16.8 mV</td></tr>
+            <tr><td>Blower Winding Insulation</td><td>>1 MΩ (500V megger)</td></tr>
+            <tr><td>Capacitor Tolerance</td><td>±10% of rated µF</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔧 Part Numbers Quick Reference</div>
+          <table class="spec-table">
+            <tr><th>Part</th><th>P/N</th></tr>
+            <tr><td>Ignition Module</td><td>50239</td></tr>
+            <tr><td>Gas Solenoid Valve</td><td>60679</td></tr>
+            <tr><td>Type J Thermocouple</td><td>33812-3</td></tr>
+            <tr><td>Temperature Controller</td><td>47321</td></tr>
+          </table>
+          <div style="margin-top:12px;padding:10px;background:rgba(255,61,61,0.06);border-radius:7px;border-left:3px solid var(--accent-red);font-size:12px;color:var(--text-secondary);">
+            ⚠️ Always verify P/N with your Middleby Marshall parts catalog before ordering. P/N may vary by model year.
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;margin-bottom:14px;">🔑 Critical Field Knowledge — Must Remember</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;">
+          <div style="background:rgba(255,61,61,0.08);border:1px solid rgba(255,61,61,0.3);border-radius:9px;padding:14px;">
+            <div style="font-weight:700;color:var(--accent-red);margin-bottom:6px;">🔴 #1 Rule</div>
+            <div style="font-size:13px;">60% of all flame failures are caused by a bad GROUND connection. Check ground FIRST before replacing any parts.</div>
+          </div>
+          <div style="background:rgba(255,107,26,0.08);border:1px solid rgba(255,107,26,0.3);border-radius:9px;padding:14px;">
+            <div style="font-weight:700;color:var(--accent-orange);margin-bottom:6px;">🟠 Gas Safety</div>
+            <div style="font-size:13px;">NEVER use open flame to check for gas leaks. Always use soap-water solution. Ventilate area before any gas work.</div>
+          </div>
+          <div style="background:rgba(255,214,0,0.08);border:1px solid rgba(255,214,0,0.3);border-radius:9px;padding:14px;">
+            <div style="font-weight:700;color:var(--accent-yellow);margin-bottom:6px;">🟡 High Limit</div>
+            <div style="font-size:13px;">High limit trips at 650°F. NEVER bypass safety switches even temporarily. Find and fix the root cause of overheating.</div>
+          </div>
+          <div style="background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.3);border-radius:9px;padding:14px;">
+            <div style="font-weight:700;color:var(--accent-green);margin-bottom:6px;">🟢 Capacitor Trick</div>
+            <div style="font-size:13px;">Weak capacitor mimics motor failure. Always test capacitor first before condemning motor. Saves time and money.</div>
+          </div>
+        </div>
+      </div>`;
+    main.appendChild(specsPage);
+  }
+  renderErrorCodes();
+}
+
+// ══════════════════════════════════════
+//  API KEY
+// ══════════════════════════════════════
+function saveApiKey() {
+  const key = document.getElementById('api-key-input').value.trim();
+  apiKey = key;
+  localStorage.setItem('ps540_apikey', key);
+  document.getElementById('api-key-status').textContent = key ? '✅ Key saved & ready' : '⚠️ No key entered';
+  document.getElementById('api-key-status').style.color = key ? 'var(--accent-green)' : 'var(--text-muted)';
+  showNotification(key ? '✅ API Key saved!' : '⚠️ Key cleared');
+}
+
+// ══════════════════════════════════════
+//  CHAT ENGINE
+// ══════════════════════════════════════
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  appendMsg('user', msg);
+  chatHistory.push({ role: 'user', content: msg });
+  showTyping();
+
+  if (!apiKey) {
+    removeTyping();
+    const fallback = getLocalAnswer(msg);
+    appendMsg('bot', fallback);
+    chatHistory.push({ role: 'assistant', content: fallback });
+    return;
+  }
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: AI_SYSTEM_PROMPT,
+        messages: chatHistory.slice(-10)
+      })
+    });
+    const data = await resp.json();
+    removeTyping();
+    if (data.content && data.content[0]) {
+      const reply = data.content[0].text;
+      appendMsg('bot', reply);
+      chatHistory.push({ role: 'assistant', content: reply });
+    } else if (data.error) {
+      appendMsg('bot', `⚠️ API Error: ${data.error.message || 'Unknown error'}. Check your API key.`);
+    }
+  } catch (err) {
+    removeTyping();
+    const fallback = getLocalAnswer(msg);
+    appendMsg('bot', '⚠️ API offline — using local knowledge:\n\n' + fallback);
+  }
+}
+
+function quickChat(msg) {
+  document.getElementById('chat-input').value = msg;
+  sendChat();
+}
+
+function appendMsg(role, text) {
+  const container = document.getElementById('chat-messages');
+  if (!container) return;
+  // Format text: convert **bold** and line breaks
+  const formatted = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>')
+    .replace(/P\/N (\d+[-\d]*)/g, 'P/N <span class="ref-badge">$1</span>');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  div.innerHTML = `<div class="msg-avatar">${role === 'bot' ? '🤖' : '👷'}</div><div class="msg-bubble">${formatted}</div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showTyping() {
+  const container = document.getElementById('chat-messages');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = 'msg bot'; div.id = 'typing-msg';
+  div.innerHTML = `<div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-msg');
+  if (t) t.remove();
+}
+
+function clearChat() {
+  chatHistory = [];
+  const c = document.getElementById('chat-messages');
+  if (c) c.innerHTML = `<div class="msg bot"><div class="msg-avatar">🤖</div><div class="msg-bubble"><strong>Chat cleared.</strong> TechMaster AI ready for new questions!</div></div>`;
+}
+
+// ══════════════════════════════════════
+//  LOCAL FALLBACK ANSWERS (offline mode)
+// ══════════════════════════════════════
+function getLocalAnswer(q) {
+  const query = q.toLowerCase();
+  if (query.includes('flame') || query.includes('ignit')) {
+    return `🔥 **Flame Failure — Local Answer**\n\n⚠️ SAFETY: Check for gas smell first. Ventilate area.\n\n**Steps (check in this order):**\n1. ✅ **CHECK GROUND FIRST** — 60% of flame failures = bad earth connection. Tighten all ground points.\n2. Clean flame sensor with fine emery cloth — measure µA at module (must be >0.5µA)\n3. Check ignition module P/N 50239 — verify 24VAC input\n4. Check spark gap = 1/8" (3.2mm)\n5. Test gas valve P/N 60679 — coil should be 35-45Ω\n\n💡 Ground check is FREE. Module costs ₹2000+. Always check ground first!`;
+  }
+  if (query.includes('temperature') || query.includes('temp') || query.includes('low temp')) {
+    return `🌡️ **Low Temperature — Local Answer**\n\n**Most likely causes:**\n1. Thermocouple P/N 33812-3 (Type J) degraded → measure mV (300°C = ~16.8mV)\n2. Gas pressure low → check with manometer (NG: 6-12" WC)\n3. Temperature controller P/N 47321 offset → recalibrate\n4. Burner ports partially clogged → clean ports\n\n**Quick Check:** Use reference thermometer in oven. If display shows higher than actual → TC fault.`;
+  }
+  if (query.includes('blower') || query.includes('motor trip')) {
+    return `💨 **Blower Motor Issue — Local Answer**\n\n**Steps:**\n1. Allow motor to cool 15 min if tripped (thermal overload)\n2. Test **capacitor** first (±10% of rated µF) — most common cause\n3. Check running current with clamp ammeter vs nameplate FLA\n4. Measure winding resistance (2-15Ω range)\n5. Check bearing by rotating shaft by hand when power is OFF\n\n⚡ Blower speed nominal: **2300 RPM** | Supply: **208-240 VAC**`;
+  }
+  if (query.includes('conveyor') || query.includes('belt') || query.includes('nora')) {
+    return `🔄 **Conveyor Issue — Local Answer**\n\n**NORA Screen Encoder Values:**\n- Test Mode: ~260\n- Normal Low: ~30  \n- Normal High: ~380\n\n**Troubleshooting:**\n1. Check for food jam first (visual inspection, power OFF)\n2. Verify motor voltage at terminals\n3. Check NORA encoder values\n4. Inspect drive chain — lubricate if dry\n5. Check belt tension and tracking alignment`;
+  }
+  if (query.includes('gas valve') || query.includes('60679')) {
+    return `🔵 **Gas Valve Testing (P/N 60679) — Local Answer**\n\n**Multimeter Tests:**\n- Coil Resistance: **35-45 Ω** (normal)\n- OL / ∞ = coil burned → Replace valve\n- Coil Voltage when energized: **24 VAC**\n\n⚠️ Turn OFF gas supply before removing valve.\nAlways check for leaks with soap solution after installation.\nListen for "click" sound when 24V applied = valve working.`;
+  }
+  if (query.includes('pm') || query.includes('preventive') || query.includes('maintenance')) {
+    return `📋 **Monthly PM Checklist — Local Answer**\n\n✅ Full gas pressure check (manometer)\n✅ Measure flame current µA at module\n✅ Temperature calibration with reference thermometer\n✅ Clean blower wheel and motor fins\n✅ Test high limit safety switch\n✅ Check conveyor motor current\n✅ Inspect thermocouple P/N 33812-3\n✅ Test air pressure switch operation\n✅ Check blower capacitor (±10% µF)\n✅ Full wiring inspection\n\n🔑 Always clean flame sensor & check ground connection EVERY week.`;
+  }
+  return `🤖 **TechMaster AI (Offline Mode)**\n\nMain abhi API se connect nahi hoon. Local knowledge answer:\n\n**PS540GS Key Reminders:**\n- 60% flame failures = ground connection issue\n- Always check ground before replacing expensive parts\n- Ignition Module: P/N 50239 | Gas Valve: P/N 60679\n- TC: P/N 33812-3 (Type J) | Controller: P/N 47321\n- Gas Pressure NG: 6-12" WC | Flame Current: >0.5µA\n\nAPI key enter karo for detailed AI answers! 🔑`;
+}
+
+// ══════════════════════════════════════
+//  ERROR CODES DATA & RENDERING
+// ══════════════════════════════════════
+const errorCodesData = [
+  { code: 'FLAME FAILURE', desc: 'Flame Lockout — Ignition Failed', cause: 'Bad ground connection (60%), dirty flame sensor, low gas pressure, faulty ignition module', fix: '✅ Check ground first → clean flame sensor → check gas pressure → test module', color: 'var(--accent-red)' },
+  { code: 'HIGH LIMIT TRIP', desc: 'High Limit Safety Switch Tripped', cause: 'Oven temperature exceeded 650°F — blower failure, gas valve stuck open, controller fault', fix: '✅ Let cool → reset → check blower → verify controller setpoint → test gas valve', color: 'var(--accent-red)' },
+  { code: 'NO IGNITION', desc: 'Burner Will Not Light', cause: 'No 24VAC to module, no gas pressure, blower not running (air switch open), spark gap wrong', fix: '✅ Check blower runs → check 24VAC at module → check gas pressure → check gap 1/8"', color: 'var(--accent-orange)' },
+  { code: 'LOW TEMP', desc: 'Temperature Below Setpoint', cause: 'Thermocouple degraded (P/N 33812-3), low gas pressure, burner partially blocked, controller offset', fix: '✅ Test TC mV output → check gas pressure → calibrate controller → clean burner', color: 'var(--accent-yellow)' },
+  { code: 'TEMP RUNAWAY', desc: 'Oven Overheating / Temperature Runaway', cause: 'Gas valve stuck open (P/N 60679), TC reading falsely low, controller faulty (P/N 47321)', fix: '🚨 Shut down immediately → verify gas valve closes → test TC → replace controller', color: 'var(--accent-red)' },
+  { code: 'CONVEYOR STOP', desc: 'Conveyor Belt Not Moving', cause: 'Motor fault, belt jammed, drive chain broken, speed control failure, encoder fault', fix: '✅ Clear jam → check motor voltage → check NORA encoder values → inspect chain', color: 'var(--accent-orange)' },
+  { code: 'BLOWER TRIP', desc: 'Blower Motor Overload Tripped', cause: 'Weak/dead run capacitor, motor overheating (dirty), seized bearing, high supply voltage', fix: '✅ Cool 15 min → test capacitor → check current vs FLA → check bearing', color: 'var(--accent-orange)' },
+  { code: 'NO AIRFLOW', desc: 'Air Pressure Switch Not Closing', cause: 'Blower not running, blocked sensing tubing, dirty blower wheel, faulty air pressure switch', fix: '✅ Verify blower runs → clean tubing → clean wheel → test switch continuity', color: 'var(--accent-yellow)' },
+  { code: 'GAS SMELL', desc: 'Gas Detected — Potential Leak', cause: 'Loose gas fitting, cracked gas line, valve not seating properly, damaged regulator', fix: '🚨 Shut gas supply → ventilate area → soap-test ALL fittings → call gas technician if needed', color: 'var(--accent-red)' },
+  { code: 'CONVEYOR SLOW', desc: 'Conveyor Running Below Set Speed', cause: 'Speed pot (potentiometer) worn, VFD fault, encoder dirty, motor capacitor weak', fix: '✅ Check NORA encoder values → test speed pot resistance → check VFD display', color: 'var(--accent-yellow)' },
+  { code: 'UNEVEN BAKE', desc: 'Uneven Baking — One Side Overcooked', cause: 'Conveyor off-center, blower impeller damage, burner orifice partial blockage, damaged heat deflector', fix: '✅ Check belt tracking → inspect blower wheel → check all burner ports → check airflow', color: 'var(--accent-yellow)' },
+  { code: 'TC FAULT', desc: 'Thermocouple Open or Short Circuit', cause: 'TC wire damaged (P/N 33812-3), TC junction oxidized, wrong TC type installed, broken TC wire', fix: '✅ Measure TC mV output (Type J: 300°C=~16.8mV) → check leads → replace P/N 33812-3', color: 'var(--accent-orange)' },
+  { code: 'CONTROL BOARD ERR', desc: 'Temperature Controller Error Display', cause: 'TC open/short detected, sensor input fault, power surge damage, incorrect TC type setting', fix: '✅ Check TC input → verify TC type set to J → check 24VAC supply to controller → replace P/N 47321', color: 'var(--accent-orange)' },
+  { code: 'NO POWER', desc: 'Oven Completely Dead — No Display', cause: 'Main fuse blown, tripped circuit breaker, main contactor failure, power supply fault', fix: '✅ Check main breaker → check fuses → verify 208-240VAC at main terminals → check contactor', color: 'var(--accent-red)' },
+  { code: 'INTERMITTENT FLAME', desc: 'Flame Ignites Then Randomly Goes Out', cause: 'Flame sensor signal borderline (µA near 0.5 limit), loose ground wire, gas pressure fluctuation', fix: '✅ Measure µA (should be >0.5) → clean sensor → tighten ground → check gas regulator', color: 'var(--accent-yellow)' },
+  { code: 'BELT TRACKING', desc: 'Conveyor Belt Drifting Off Center', cause: 'Tracking adjustment screws not set, roller misalignment, uneven belt tension, worn belt edges', fix: '✅ Adjust tracking screws gradually → check roller alignment → inspect belt edge condition', color: 'var(--accent-blue)' },
+];
+
+function renderErrorCodes() {
+  const grid = document.getElementById('error-grid');
+  if (!grid) return;
+  grid.innerHTML = errorCodesData.map((e, i) => `
+    <div class="error-card" id="ec-${i}" style="border-left-color:${e.color};" onclick="expandError(${i})">
+      <div class="error-code">⚠️ ${e.code}</div>
+      <div class="error-desc">${e.desc}</div>
+      <div class="error-cause"><strong>Cause:</strong> ${e.cause}</div>
+      <div class="error-fix">${e.fix}</div>
+    </div>`).join('');
+}
+
+function filterErrors(q) {
+  const query = q.toLowerCase();
+  document.querySelectorAll('.error-card').forEach((card, i) => {
+    const e = errorCodesData[i];
+    const match = e.code.toLowerCase().includes(query) || e.desc.toLowerCase().includes(query) || e.cause.toLowerCase().includes(query);
+    card.style.display = match ? '' : 'none';
+  });
+}
+
+function expandError(i) {
+  const e = errorCodesData[i];
+  document.getElementById('modal-title').textContent = '⚠️ ' + e.code;
+  document.getElementById('modal-content').innerHTML = `
+    <div style="line-height:1.8;font-size:13px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:8px;color:var(--text-primary);">${e.desc}</div>
+      <div style="background:rgba(255,61,61,0.08);border-left:3px solid var(--accent-red);border-radius:6px;padding:10px;margin-bottom:10px;">
+        <div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:4px;">ROOT CAUSE</div>
+        <div>${e.cause}</div>
+      </div>
+      <div style="background:rgba(0,230,118,0.08);border-left:3px solid var(--accent-green);border-radius:6px;padding:10px;margin-bottom:14px;">
+        <div style="font-size:10px;color:var(--text-muted);font-family:'Share Tech Mono',monospace;margin-bottom:4px;">RECOMMENDED FIX</div>
+        <div>${e.fix}</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-primary btn-sm" onclick="quickChat('How to fix ${e.code} fault on PS540GS?');closeModal();showPage('aichat');">🤖 Ask AI About This</button>
+        <button class="btn btn-outline btn-sm" onclick="closeModal()">Close</button>
+      </div>
+    </div>`;
+  document.getElementById('modal-backdrop').classList.add('visible');
+}
+
+// ══════════════════════════════════════
+//  EXPORT SPECS
+// ══════════════════════════════════════
+function exportSpecs() {
+  const specs = `MIDDLEBY MARSHALL PS540GS — COMPLETE TECHNICAL SPECIFICATIONS
+Generated: ${new Date().toLocaleString()}
+================================================================
+
+HEATING & TEMPERATURE
+BTU Input:              110,000 BTU/hr
+Max Operating Temp:     550°F (288°C)
+High Limit Safety:      650°F (343°C)
+Temperature Controller: P/N 47321 (Digital)
+Thermocouple:           Type J · P/N 33812-3
+TC at 100°C:            ~5.3 mV
+TC at 300°C:            ~16.8 mV
+Temp Tolerance:         ±5°F acceptable
+
+GAS SYSTEM
+NG Supply Pressure:     6 – 12" WC
+LPG Supply Pressure:    11.5 – 12" WC
+Manifold Pressure NG:   3.5" WC
+Manifold Pressure LPG:  10" WC
+Gas Valve P/N:          60679
+Valve Coil Resistance:  35 – 45 Ω
+Valve Coil Voltage:     24 VAC
+
+IGNITION SYSTEM
+Ignition Module P/N:    50239
+Module Supply Voltage:  24 VAC
+Spark Igniter Gap:      1/8" (3.2 mm)
+Minimum Flame Current:  >0.5 µA
+Trial for Ignition:     ~7 – 10 seconds
+#1 Flame Failure Cause: Ground connection fault (60% of all cases)
+
+BLOWER & CONVEYOR
+Blower Speed:           2300 RPM
+Blower Voltage:         208 – 240 VAC
+Conveyor Speed Range:   2 – 7 min/cycle
+NORA Encoder (Test):    ~260
+NORA Encoder (Low):     ~30
+NORA Encoder (High):    ~380
+
+ELECTRICAL
+Main Supply:            208 – 240 VAC 50/60 Hz
+Control Voltage:        24 VAC
+Motor Insulation:       >1 MΩ (500V megger)
+Capacitor Tolerance:    ±10% rated µF
+
+PART NUMBERS
+Ignition Module:        P/N 50239
+Gas Solenoid Valve:     P/N 60679
+Type J Thermocouple:    P/N 33812-3
+Temperature Controller: P/N 47321
+
+================================================================
+Generated by PS540GS TechMaster — Amir Khan · DPI West 1`;
+  const blob = new Blob([specs], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'PS540GS_Specs_Reference.txt';
+  a.click();
+  showNotification('✅ Specs exported!');
+}
+</script>
+
+<!-- ══ PWA: SERVICE WORKER + INSTALL BANNER ══ -->
+<script>
+// ── Service Worker Register ──
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => {
+        console.log('✅ PS540G SW registered');
+        reg.addEventListener('updatefound', () => {
+          const nw = reg.installing;
+          nw.addEventListener('statechange', () => {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+              const bar = document.createElement('div');
+              bar.innerHTML = `<div style="position:fixed;top:56px;left:0;right:0;background:#1a1008;border-bottom:1px solid rgba(255,107,26,0.4);padding:10px 20px;text-align:center;z-index:9999;display:flex;align-items:center;justify-content:center;gap:12px;font-family:'Exo 2',sans-serif;font-size:13px;color:#e8ecf4;">🔄 Naya update available! <button onclick="window.location.reload()" style="background:rgba(255,107,26,0.15);border:1px solid rgba(255,107,26,0.5);color:#ff6b1a;padding:4px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;">Refresh</button></div>`;
+              document.body.prepend(bar);
+            }
+          });
+        });
+      })
+      .catch(e => console.log('❌ SW Error:', e));
+  });
+}
+
+// ── Install Banner ──
+let _pwaPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _pwaPrompt = e;
+  setTimeout(() => {
+    if (document.getElementById('pwa-install-bar')) return;
+    const bar = document.createElement('div');
+    bar.id = 'pwa-install-bar';
+    bar.innerHTML = `
+      <div style="position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#111318;border:1px solid rgba(255,107,26,0.5);border-radius:14px;padding:14px 18px;max-width:340px;width:90%;display:flex;align-items:center;gap:12px;z-index:9998;box-shadow:0 8px 32px rgba(0,0,0,0.7);animation:pwaSlide 0.4s ease;font-family:'Exo 2',sans-serif;">
+        <div style="font-size:28px;flex-shrink:0;">🔥</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:#e8ecf4;margin-bottom:2px;">PS540G TechMaster Install Karo</div>
+          <div style="font-size:11px;color:#4a5268;">Offline bhi kaam karega · No Ads</div>
+        </div>
+        <button onclick="(function(){if(_pwaPrompt){_pwaPrompt.prompt();_pwaPrompt.userChoice.then(()=>{_pwaPrompt=null;document.getElementById('pwa-install-bar').remove();});}})()" style="background:linear-gradient(135deg,#ff6b1a,#ff3d00);border:none;color:#fff;font-size:12px;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;font-family:'Exo 2',sans-serif;">Install</button>
+        <button onclick="document.getElementById('pwa-install-bar').remove()" style="background:none;border:none;color:#4a5268;font-size:20px;cursor:pointer;line-height:1;padding:2px 4px;">×</button>
+      </div>`;
+    document.body.appendChild(bar);
+  }, 4000);
+});
+
+const _pwaStyle = document.createElement('style');
+_pwaStyle.textContent = '@keyframes pwaSlide{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
+document.head.appendChild(_pwaStyle);
+</script>
+<!-- ════════════════════════════════════════════ -->
+</body>
+</html>
